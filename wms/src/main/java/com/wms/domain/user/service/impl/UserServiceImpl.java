@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
     // 회원가입
     @Override
+    @Transactional
     public void register(SignUpRequestDTO signUpRequestDTO){
 
         //이메일 중복 확인

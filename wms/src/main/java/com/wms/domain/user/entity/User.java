@@ -1,5 +1,6 @@
 package com.wms.domain.user.entity;
 
+import com.wms.domain.department.entity.Department;
 import com.wms.domain.token.entity.Token;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
@@ -44,8 +45,14 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private boolean authorization;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Token token;
+
+
 
     @Builder
     public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage, boolean authorization){

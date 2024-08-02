@@ -7,11 +7,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class SignUpRequestDTO {
 
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
@@ -24,14 +26,6 @@ public class SignUpRequestDTO {
 
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     private String name;
-
-
-
-    public SignUpRequestDTO(String email, String password, String name){
-        this.email = email;
-        this.password = password;
-        this.name = name;
-    }
 
     public User toEntity (String passwordEncoding){
         return User.builder()

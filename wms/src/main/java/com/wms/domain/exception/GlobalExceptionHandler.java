@@ -1,5 +1,6 @@
 package com.wms.domain.exception;
 
+import com.wms.domain.exception.exception.DepartmentException;
 import com.wms.domain.exception.exception.TokenException;
 import com.wms.domain.exception.exception.UserException;
 import com.wms.global.util.response.ApiResponse;
@@ -25,6 +26,15 @@ public class GlobalExceptionHandler {
     //토큰 예외 핸들러
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<ApiResponse<?>> handleTokenException(UserException e, HttpServletRequest request){
+
+        log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    //부서 예외 핸들러
+    @ExceptionHandler(DepartmentException.class)
+    public ResponseEntity<ApiResponse<?>> handleDepartmentException(UserException e, HttpServletRequest request){
 
         log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
