@@ -1,6 +1,7 @@
 package com.wms.global.config;
 
 import com.wms.domain.token.repository.TokenRepository;
+import com.wms.global.handler.CustomAccessDeniedHandler;
 import com.wms.global.util.jwt.CustomLogoutFilter;
 import com.wms.global.util.jwt.JWTFilter;
 import com.wms.global.util.jwt.JwtUtil;
@@ -35,6 +36,7 @@ public class SecurityConfig {
     private final TokenRepository tokenRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     //AuthenticationManager Bean 등록
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -70,6 +72,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/users/email-check").permitAll()
                         .requestMatchers("/api/v1/users/**").hasAuthority("USER")
                         .anyRequest().authenticated()) // 허가된 사람만 인가
+                .exceptionHandling(exceptionHandling -> exceptionHandling //권한이 없으면 해당 커스텀 핸들러로 이동
+                        .accessDeniedHandler(customAccessDeniedHandler))
                 .addFilterAt(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, tokenRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, tokenRepository), LogoutFilter.class);

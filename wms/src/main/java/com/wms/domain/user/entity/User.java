@@ -42,9 +42,6 @@ public class User extends BaseEntity {
     @Column(nullable = true)
     private String profileImage;
 
-    @Column(nullable = false)
-    private boolean authorization;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
@@ -55,7 +52,7 @@ public class User extends BaseEntity {
 
 
     @Builder
-    public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage, boolean authorization){
+    public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage){
         this.id = id;
         this.socialType = socialType;
         this.email = email;
@@ -63,7 +60,6 @@ public class User extends BaseEntity {
         this.name = name;
         this.role = role;
         this.profileImage = profileImage;
-        this.authorization = authorization;
     }
 
     //소셜로그인 생성자

@@ -35,7 +35,6 @@ public class SignUpRequestDTO {
                 .name(name)
                 .role(Role.USER)
                 .profileImage(null)
-                .authorization(false)
                 .build();
     }
 

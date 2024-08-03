@@ -1,10 +1,9 @@
-package com.wms.global.util.service;
+package com.wms.global.util.jwt;
 
 import com.wms.domain.exception.exception.UserException;
 import com.wms.domain.exception.responseCode.UserExceptionResponseCode;
 import com.wms.domain.user.entity.User;
 import com.wms.domain.user.repository.UserRepository;
-import com.wms.global.util.response.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

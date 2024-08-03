@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wms.domain.token.entity.Token;
 import com.wms.domain.token.repository.TokenRepository;
 import com.wms.domain.user.entity.User;
-import com.wms.global.util.response.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
