@@ -1,6 +1,7 @@
 package com.wms.domain.user.entity;
 
 import com.wms.domain.department.entity.Department;
+import com.wms.domain.position.entity.Position;
 import com.wms.domain.token.entity.Token;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
@@ -9,9 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -46,13 +44,17 @@ public class User extends BaseEntity {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_id", nullable = false)
+    private Position position;
+
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Token token;
 
 
 
     @Builder
-    public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage){
+    public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage,Department department, Position position){
         this.id = id;
         this.socialType = socialType;
         this.email = email;
@@ -60,6 +62,8 @@ public class User extends BaseEntity {
         this.name = name;
         this.role = role;
         this.profileImage = profileImage;
+        this.department = department;
+        this.position = position;
     }
 
     //소셜로그인 생성자

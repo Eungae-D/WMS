@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/users").permitAll()
                         .requestMatchers("/api/v1/users/email-check").permitAll()
                         .requestMatchers("/api/v1/users/**").hasAuthority("USER")
+                        .requestMatchers("/api/v1/department/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()) // 허가된 사람만 인가
                 .exceptionHandling(exceptionHandling -> exceptionHandling //권한이 없으면 해당 커스텀 핸들러로 이동
                         .accessDeniedHandler(customAccessDeniedHandler))

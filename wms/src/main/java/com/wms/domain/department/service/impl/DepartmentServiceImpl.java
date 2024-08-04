@@ -24,10 +24,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public void registerDepartment(DepartmentRequestDTO departmentRequestDTO){
-        User currentUser = userFindService.getCurrentUser();
         //부서 코드 중복 확인
         if(departmentRepository.existsByDepartmentCode(departmentRequestDTO.getDepartment_code())){
-            throw new DepartmentException(DepartmentExceptionResponseCode.DEPARTMENT_CODE_DUPLICATE, "이미 존재하는 부서입니다.");
+            throw new DepartmentException(DepartmentExceptionResponseCode.DEPARTMENT_CODE_DUPLICATE, "이미 존재하는 부서코드입니다.");
         }
 
         //부서 저장 로직

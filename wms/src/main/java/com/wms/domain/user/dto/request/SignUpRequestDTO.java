@@ -1,11 +1,12 @@
 package com.wms.domain.user.dto.request;
 
+import com.wms.domain.department.entity.Department;
+import com.wms.domain.position.entity.Position;
 import com.wms.domain.user.entity.Role;
 import com.wms.domain.user.entity.SocialType;
 import com.wms.domain.user.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,13 @@ public class SignUpRequestDTO {
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     private String name;
 
-    public User toEntity (String passwordEncoding){
+    @NotBlank(message = "부서는 필수 입력 값입니다.")
+    private Long departmentId;
+
+    @NotBlank(message = "직책은 필수 입력 값입니다.")
+    private Long positionId;
+
+    public User toEntity (String passwordEncoding, Department department, Position position){
         return User.builder()
                 .socialType(SocialType.GENERAL)
                 .email(email)
@@ -35,6 +42,8 @@ public class SignUpRequestDTO {
                 .name(name)
                 .role(Role.USER)
                 .profileImage(null)
+                .department(department)
+                .position(position)
                 .build();
     }
 
