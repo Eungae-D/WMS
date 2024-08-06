@@ -1,8 +1,8 @@
 package com.wms.domain.position.service.impl;
 
 import com.wms.domain.department.dto.request.PositionRequestDTO;
-import com.wms.domain.exception.exception.PositionException;
-import com.wms.domain.exception.responseCode.PositionExceptionResponseCode;
+import com.wms.global.exception.exception.PositionException;
+import com.wms.global.exception.responseCode.PositionExceptionResponseCode;
 import com.wms.domain.position.entity.Position;
 import com.wms.domain.position.repository.PositionRepository;
 import com.wms.domain.position.service.PositionService;

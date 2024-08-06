@@ -27,9 +27,17 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        //회원가입, 이메일체크, 로그인은 jwt필터를 넘어가도 됌
+        String path = request.getRequestURI();
+        if (path.equals("/api/v1/users/register") || path.equals("/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         Optional<String> accessTokenOptional = findAccessToken(request, "accessToken");
 
-        // 토큰이 없다면 에러 메시지를 return, 다음 필터로 넘기지 않음
+        // 토큰이 없다면 에러 메시지를 return
         if (accessTokenOptional.isEmpty()) {
             log.error("요청 경로 : " + request.getRequestURI() + " / 쿠키 없음.");
             sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "쿠키가 존재하지 않습니다.");

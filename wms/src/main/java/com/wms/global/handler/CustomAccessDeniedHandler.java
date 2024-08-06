@@ -1,7 +1,7 @@
 package com.wms.global.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wms.domain.exception.responseCode.UserExceptionResponseCode;
+import com.wms.global.exception.responseCode.UserExceptionResponseCode;
 import com.wms.global.util.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

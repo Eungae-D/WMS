@@ -1,9 +1,9 @@
-package com.wms.domain.exception;
+package com.wms.global.exception;
 
-import com.wms.domain.exception.exception.DepartmentException;
-import com.wms.domain.exception.exception.PositionException;
-import com.wms.domain.exception.exception.TokenException;
-import com.wms.domain.exception.exception.UserException;
+import com.wms.global.exception.exception.DepartmentException;
+import com.wms.global.exception.exception.PositionException;
+import com.wms.global.exception.exception.TokenException;
+import com.wms.global.exception.exception.UserException;
 import com.wms.global.util.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

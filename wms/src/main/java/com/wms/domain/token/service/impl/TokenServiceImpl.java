@@ -1,9 +1,9 @@
 package com.wms.domain.token.service.impl;
 
-import com.wms.domain.exception.exception.TokenException;
-import com.wms.domain.exception.exception.UserException;
-import com.wms.domain.exception.responseCode.TokenExceptionResponseCode;
-import com.wms.domain.exception.responseCode.UserExceptionResponseCode;
+import com.wms.global.exception.exception.TokenException;
+import com.wms.global.exception.exception.UserException;
+import com.wms.global.exception.responseCode.TokenExceptionResponseCode;
+import com.wms.global.exception.responseCode.UserExceptionResponseCode;
 import com.wms.domain.token.entity.Token;
 import com.wms.domain.token.repository.TokenRepository;
 import com.wms.domain.token.service.TokenService;
@@ -16,8 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

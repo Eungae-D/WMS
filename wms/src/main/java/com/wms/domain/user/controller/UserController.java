@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,8 +36,10 @@ public class UserController {
     }
 
     // 회원가입
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@Valid @RequestBody SignUpRequestDTO signUpRequestDTO){
+    @PostMapping(value = "/register", consumes = "multipart/form-data")
+    public ResponseEntity<ApiResponse<?>> register(@Validated @RequestPart("signUpRequest") SignUpRequestDTO signUpRequestDTO, @RequestPart(value = "profileImage", required = false) MultipartFile profileImage) {
+
+        signUpRequestDTO = signUpRequestDTO.withProfileImage(profileImage);  // 프로필 이미지를 DTO에 설정
         userService.register(signUpRequestDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.createSuccessNoContent("회원가입 성공."));

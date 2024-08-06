@@ -1,7 +1,7 @@
 package com.wms.global.util.service;
 
-import com.wms.domain.exception.exception.UserException;
-import com.wms.domain.exception.responseCode.UserExceptionResponseCode;
+import com.wms.global.exception.exception.UserException;
+import com.wms.global.exception.responseCode.UserExceptionResponseCode;
 import com.wms.domain.user.entity.User;
 import com.wms.domain.user.repository.UserRepository;
 import com.wms.global.util.jwt.JwtService;

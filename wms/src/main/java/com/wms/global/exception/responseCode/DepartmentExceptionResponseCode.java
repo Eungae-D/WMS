@@ -1,4 +1,4 @@
-package com.wms.domain.exception.responseCode;
+package com.wms.global.exception.responseCode;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

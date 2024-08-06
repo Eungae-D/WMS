@@ -1,6 +1,6 @@
-package com.wms.domain.exception.exception;
+package com.wms.global.exception.exception;
 
-import com.wms.domain.exception.responseCode.PositionExceptionResponseCode;
+import com.wms.global.exception.responseCode.PositionExceptionResponseCode;
 import lombok.Getter;
 
 @Getter
