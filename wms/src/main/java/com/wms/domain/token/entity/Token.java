@@ -23,7 +23,7 @@ public class Token extends BaseEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="user_id",nullable = false)
+    @JoinColumn(name ="user_id",nullable = false, unique = true)
     private User user;
 
     @Column(nullable = true, length = 200)
@@ -38,7 +38,7 @@ public class Token extends BaseEntity {
         this.expiredDate = expiredDate;
     }
 
-    public void addTokenValueAndExpireDate( String refreshToken, LocalDateTime expiredDate) {
+    public void updateToken(String refreshToken, LocalDateTime expiredDate) {
         this.refreshToken = refreshToken;
         this.expiredDate = expiredDate;
     }

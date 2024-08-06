@@ -8,12 +8,21 @@ import com.wms.global.util.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    //유효성검사 예외 핸들러
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<?>> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        log.error("요청 경로: {}, 실패 이유: {}, 로그: {}", request.getRequestURI(), "VALIDATION_ERROR", errorMessage);
+        return ResponseEntity.badRequest().body(ApiResponse.createError("VALIDATION_ERROR", errorMessage));
+    }
 
     //예외 핸들러
     @ExceptionHandler(UserException.class)

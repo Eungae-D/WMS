@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -54,6 +55,15 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(createCookie("accessToken", accessToken));
         response.addCookie(createCookie("refreshToken", refreshToken));
         response.sendRedirect("http://localhost:3000/");
+
+        //성공 응답 JSON 작성
+        String jsonResponse = String.format("{\"code\": \"%s\", \"message\": \"%s\", \"data\": {\"accessToken\": \"%s\", \"refreshToken\": \"%s\"}}",
+                "SUCCESS", "로그인 성공.", accessToken, refreshToken);
+
+        response.setStatus(HttpStatus.OK.value());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
     }
 
     private Cookie createCookie(String key, String value){

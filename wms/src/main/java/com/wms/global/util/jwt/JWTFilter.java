@@ -60,7 +60,7 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
+        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음 -> 프론트에서 리프레시 토큰으로 엑세스토큰 재발급 요청을 보냄.
         try {
             jwtUtil.isExpired(accessToken);
         } catch (ExpiredJwtException e) {

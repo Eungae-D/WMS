@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wms.domain.token.entity.Token;
 import com.wms.domain.token.repository.TokenRepository;
 import com.wms.domain.user.entity.User;
+import com.wms.global.util.response.ApiResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,10 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -70,7 +68,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 된다.)
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication){
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication)throws IOException{
         CustomUserDetails customUserDetails = (CustomUserDetails)authentication.getPrincipal();
 
         User user = customUserDetails.getUser();
@@ -86,19 +84,42 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //유효기간 30일
         String refreshToken = jwtUtil.createRefreshToken("refreshToken", userId, 30*24*60*60*1000L);
 
+        //+30일
+        LocalDateTime expiredDate = LocalDateTime.now().plusDays(30);
+        //유저가 있으면
+        Optional<Token> existingTokenOpt = tokenRepository.findByUser(user);
 
-        Token refreshEntity = Token.toEntity(user, refreshToken,  LocalDateTime.now().plusDays(30));
-        tokenRepository.save(refreshEntity);
+        Token token;
+        if (existingTokenOpt.isPresent()) {
+            token = existingTokenOpt.get();
+            token.updateToken(refreshToken, expiredDate);
+        } else {
+            token = Token.toEntity(user, refreshToken, expiredDate);
+        }
+        tokenRepository.save(token);
 
         response.addCookie(createCookie("accessToken", accessToken));
         response.addCookie(createCookie("refreshToken", refreshToken));
+
+        //성공 응답 JSON 작성
+        String jsonResponse = String.format("{\"code\": \"%s\", \"message\": \"%s\", \"data\": {\"accessToken\": \"%s\", \"refreshToken\": \"%s\"}}",
+                "SUCCESS", "로그인 성공.", accessToken, refreshToken);
+
         response.setStatus(HttpStatus.OK.value());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
     }
 
     //로그인 실패시 실행하는 메소드
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed){
-        response.setStatus(401);
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        String jsonResponse = String.format("{\"code\": \"%s\", \"message\": \"%s\"}", "LOGIN_FAILED", "로그인 실패. 잘못된 이메일 또는 비밀번호입니다.");
+
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
     }
 
     private Cookie createCookie(String key, String value){
