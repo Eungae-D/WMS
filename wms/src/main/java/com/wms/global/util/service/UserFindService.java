@@ -15,8 +15,8 @@ public class UserFindService {
     private final JwtService jwtService;
 
     // 현재 유저 가져오기
-    public User getCurrentUser() {
-        Long currentUserId = jwtService.getCurrentUserId();
-        return userRepository.findById(currentUserId).orElseThrow(() -> new UserException(UserExceptionResponseCode.USER_NOT_FOUND, currentUserId + "번 유저를 찾지 못했습니다."));
-    }
+//    public User getCurrentUser() {
+//        Long currentUserId = jwtService.getCurrentUserId();
+//        return userRepository.findById(currentUserId).orElseThrow(() -> new UserException(UserExceptionResponseCode.USER_NOT_FOUND, currentUserId + "번 유저를 찾지 못했습니다."));
+//    }
 }

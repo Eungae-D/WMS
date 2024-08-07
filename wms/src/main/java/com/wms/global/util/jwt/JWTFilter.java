@@ -30,7 +30,11 @@ public class JWTFilter extends OncePerRequestFilter {
 
         //회원가입, 이메일체크, 로그인은 jwt필터를 넘어가도 됌
         String path = request.getRequestURI();
-        if (path.equals("/api/v1/users/register") || path.equals("/login")) {
+//        if (path.equals("/api/v1/users/register") || path.equals("/login")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+        if (path.equals("/login")) {
             filterChain.doFilter(request, response);
             return;
         }

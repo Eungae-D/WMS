@@ -25,10 +25,11 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.createSuccessNoContent("부서등록 성공."));
     }
 
-    // 부서 삭제
-//    @DeleteMapping("/{departmentId}")
+//    // 부서 삭제
+//    @DeleteMapping("/delete/{departmentId}")
 //    public ResponseEntity<ApiResponse<?>> deleteDepartment(@Valid ){
-//
+//        departmentService.deleteDepartment(departmentId);
+//        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.createSuccessNoContent("부서삭제 성공."));
 //    }
 
 }

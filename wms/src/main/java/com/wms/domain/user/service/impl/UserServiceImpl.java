@@ -2,6 +2,9 @@ package com.wms.domain.user.service.impl;
 
 import com.wms.domain.department.entity.Department;
 import com.wms.domain.department.repository.DepartmentRepository;
+import com.wms.domain.user.dto.response.UserListResponseDTO;
+import com.wms.domain.user.entity.Role;
+import com.wms.domain.user.entity.SocialType;
 import com.wms.global.exception.exception.DepartmentException;
 import com.wms.global.exception.exception.PositionException;
 import com.wms.global.exception.exception.UserException;
@@ -23,6 +26,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -77,7 +83,46 @@ public class UserServiceImpl implements UserService {
             profileImageUrl = defaultProfileImageUrl; // 기본 이미지 URL 설정
         }
 
-        User user = signUpRequestDTO.toEntity(encoder.encode(signUpRequestDTO.getPassword()),department,position, profileImageUrl);
+        Role role;
+        if ("P003".equals(position.getPosition_code()) || "P004".equals(position.getPosition_code())) {
+            role = Role.MANAGER;
+        } else if("P005".equals(position.getPosition_code())){
+            role = Role.ADMIN;
+        }else {
+            role = Role.USER;
+        }
+
+        User user = User.builder()
+                .socialType(SocialType.GENERAL)
+                .email(signUpRequestDTO.getEmail())
+                .password(encoder.encode(signUpRequestDTO.getPassword()))
+                .name(signUpRequestDTO.getName())
+                .role(role)
+                .profileImage(profileImageUrl)
+                .department(department)
+                .position(position)
+                .build();
+
+
         userRepository.save(user);
+    }
+
+    // 직원 삭제
+    @Override
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(UserExceptionResponseCode.USER_NOT_FOUND, "해당 유저를 찾을 수 없습니다."));
+        userRepository.delete(user);
+    }
+
+    // 직원 목록
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserListResponseDTO> listUsers() {
+        List<User> users = userRepository.findAllWithDepartmentAndPosition();
+        return users.stream()
+                .map(UserListResponseDTO::toDTO)
+                .collect(Collectors.toList());
     }
 }

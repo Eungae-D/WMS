@@ -44,19 +44,19 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.createSuccessNoContent("회원가입 성공."));
     }
-    //연습
-    @GetMapping("/asd")
-    public ResponseEntity<ApiResponse<?>> check(){
-//        boolean result = userService.emailCheck(emailRequestDTO);
-        log.info("들어오나요");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-        GrantedAuthority auth = iter.next();
-        String role = auth.getAuthority();
-        log.info(role);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccessNoContent("이메일 중복 체크 성공. (true = 중복, false = 사용 가능)"));
+    // 직원 삭제
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<ApiResponse<?>> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccessNoContent("직원 삭제 성공."));
     }
+
+    // 직원 목록 가져오기
+    @GetMapping("/list")
+    public ResponseEntity<ApiResponse<?>> listUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(userService.listUsers(), "직원목록 조회 성공."));
+    }
+
 }

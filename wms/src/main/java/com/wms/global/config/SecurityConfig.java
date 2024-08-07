@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -65,18 +66,36 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 //세션 사용 하지 않음(ALWAYS, IF_REQUIRED, NEVER등)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers().permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/api/v1/refresh-token").permitAll()
-                        .requestMatchers("/api/v1/users/register").permitAll()
-                        .anyRequest().authenticated()) // 허가된 사람만 인가
+                .authorizeHttpRequests(this::configureAuthorization) //http별 커스텀 권한 설정
                 .exceptionHandling(exceptionHandling -> exceptionHandling //권한이 없으면 해당 커스텀 핸들러로 이동
                         .accessDeniedHandler(customAccessDeniedHandler))
                 .addFilterAt(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, tokenRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, tokenRepository), LogoutFilter.class);
 
+
         return http.build();
 
     }
+
+    private void configureAuthorization(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
+        auth.dispatcherTypeMatchers().permitAll()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/api/v1/refresh-token").permitAll()
+                // 회원
+                .requestMatchers("/api/v1/users/register").hasAuthority("ADMIN")
+                .requestMatchers("/api/v1/users/delete/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/v1/users/list").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 부서
+                .requestMatchers("/api/v1/department/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/department/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/department/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 직책
+                .requestMatchers("/api/v1/position/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/position/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/position/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+
+                .anyRequest().authenticated();
+    }
 }
+

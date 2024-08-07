@@ -1,7 +1,7 @@
 package com.wms.domain.user.entity;
 
 public enum Role {
-    USER("USER"), ADMIN("ADMIN");
+    GUEST("GUEST"),USER("USER"), MANAGER("MANAGER"), ADMIN("ADMIN");
     private String name;
     private Role(String name) {
         this.name = name;
