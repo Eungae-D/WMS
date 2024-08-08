@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
 
     //부서 예외 핸들러
     @ExceptionHandler(DepartmentException.class)
-    public ResponseEntity<ApiResponse<?>> handleDepartmentException(UserException e, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<?>> handleDepartmentException(DepartmentException e, HttpServletRequest request){
 
         log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 

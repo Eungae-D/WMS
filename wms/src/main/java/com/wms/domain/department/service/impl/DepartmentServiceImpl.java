@@ -23,14 +23,21 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public void registerDepartment(DepartmentRequestDTO departmentRequestDTO){
-        //부서 코드 중복 확인
         if(departmentRepository.existsByDepartmentCode(departmentRequestDTO.getDepartment_code())){
             throw new DepartmentException(DepartmentExceptionResponseCode.DEPARTMENT_CODE_DUPLICATE, "이미 존재하는 부서코드입니다.");
         }
 
-        //부서 저장 로직
         Department department = departmentRequestDTO.toEntity();
         departmentRepository.save(department);
+    }
+
+    @Override
+    @Transactional
+    public void deleteDepartment(Long departmentId) {
+        if (!departmentRepository.existsById(departmentId)) {
+            throw new DepartmentException(DepartmentExceptionResponseCode.DEPARTMENT_NOT_FOUND, "부서를 찾을 수 없습니다.");
+        }
+        departmentRepository.deleteById(departmentId);
     }
 
 }
