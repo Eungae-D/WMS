@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/department/register").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/department/delete/**").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/department/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
-                // 직책
+                // 직급
                 .requestMatchers("/api/v1/position/register").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/position/delete/**").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/position/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")

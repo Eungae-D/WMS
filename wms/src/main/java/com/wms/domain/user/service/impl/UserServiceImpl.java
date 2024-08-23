@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     public List<UserListResponseDTO> listUsers() {
         List<User> users = userRepository.findAllWithDepartmentAndPosition();
         return users.stream()
-                .map(UserListResponseDTO::toDTO)
+                .map(UserListResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 }

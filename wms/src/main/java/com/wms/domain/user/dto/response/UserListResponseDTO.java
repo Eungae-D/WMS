@@ -16,7 +16,7 @@ public class UserListResponseDTO {
     private String departmentName;
     private String positionName;
 
-    public static UserListResponseDTO toDTO(User user) {
+    public static UserListResponseDTO fromEntity(User user) {
         return UserListResponseDTO.builder()
                 .id(user.getId())
                 .name(user.getName())

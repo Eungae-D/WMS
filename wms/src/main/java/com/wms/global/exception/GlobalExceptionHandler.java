@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiResponse.createError("VALIDATION_ERROR", errorMessage));
     }
 
-    //예외 핸들러
+    //유저 예외 핸들러
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ApiResponse<?>> handleUserException(UserException e, HttpServletRequest request){
 
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
     //토큰 예외 핸들러
     @ExceptionHandler(TokenException.class)
-    public ResponseEntity<ApiResponse<?>> handleTokenException(UserException e, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<?>> handleTokenException(TokenException e, HttpServletRequest request){
 
         log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
 
     //직급 예외 핸들러
     @ExceptionHandler(PositionException.class)
-    public ResponseEntity<ApiResponse<?>> handlePositionException(UserException e, HttpServletRequest request){
+    public ResponseEntity<ApiResponse<?>> handlePositionException(PositionException e, HttpServletRequest request){
 
         log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
