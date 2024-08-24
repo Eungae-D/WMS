@@ -1,9 +1,6 @@
 package com.wms.global.exception;
 
-import com.wms.global.exception.exception.DepartmentException;
-import com.wms.global.exception.exception.PositionException;
-import com.wms.global.exception.exception.TokenException;
-import com.wms.global.exception.exception.UserException;
+import com.wms.global.exception.exception.*;
 import com.wms.global.util.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    //유효성검사 예외 핸들러
+    // 유효성검사 예외 핸들러
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
         String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
@@ -24,39 +21,51 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiResponse.createError("VALIDATION_ERROR", errorMessage));
     }
 
-    //유저 예외 핸들러
+    // 유저 예외 핸들러
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ApiResponse<?>> handleUserException(UserException e, HttpServletRequest request){
 
-        log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
         return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
     }
 
-    //토큰 예외 핸들러
+    // 토큰 예외 핸들러
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<ApiResponse<?>> handleTokenException(TokenException e, HttpServletRequest request){
 
-        log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
         return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
     }
 
-    //부서 예외 핸들러
+    // 부서 예외 핸들러
     @ExceptionHandler(DepartmentException.class)
     public ResponseEntity<ApiResponse<?>> handleDepartmentException(DepartmentException e, HttpServletRequest request){
 
-        log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
         return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
     }
 
-    //직급 예외 핸들러
+    // 직급 예외 핸들러
     @ExceptionHandler(PositionException.class)
     public ResponseEntity<ApiResponse<?>> handlePositionException(PositionException e, HttpServletRequest request){
 
-        log.error("요청 경로 : { }, 실패 이유 : { }, 로그 : { }", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
 
         return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
     }
+
+    // 거래처 예외 핸들러
+    @ExceptionHandler(ClientException.class)
+    public ResponseEntity<ApiResponse<?>> handleClientException(ClientException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+
 }
+

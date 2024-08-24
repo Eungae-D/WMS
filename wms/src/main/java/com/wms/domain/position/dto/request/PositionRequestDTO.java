@@ -1,4 +1,4 @@
-package com.wms.domain.department.dto.request;
+package com.wms.domain.position.dto.request;
 
 import com.wms.domain.position.entity.Position;
 import jakarta.validation.constraints.NotBlank;

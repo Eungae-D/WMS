@@ -94,6 +94,14 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/position/register").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/position/delete/**").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/position/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 거래처
+                .requestMatchers("/api/v1/client/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/client/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/client/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 상품
+                .requestMatchers("/api/v1/item/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/item/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/item/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
 
                 .anyRequest().authenticated();
     }

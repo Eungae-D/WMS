@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,7 +40,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String profileImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,9 +52,7 @@ public class User extends BaseEntity {
     private Position position;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Token> token;
-
-
+    private List<Token> token = new ArrayList<>();
 
     @Builder
     public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage,Department department, Position position){

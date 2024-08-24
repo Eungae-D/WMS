@@ -1,6 +1,6 @@
 package com.wms.domain.position.service.impl;
 
-import com.wms.domain.department.dto.request.PositionRequestDTO;
+import com.wms.domain.position.dto.request.PositionRequestDTO;
 import com.wms.domain.position.dto.response.PositionResponseDTO;
 import com.wms.global.exception.exception.PositionException;
 import com.wms.global.exception.responseCode.PositionExceptionResponseCode;
@@ -52,6 +52,11 @@ public class PositionServiceImpl implements PositionService {
     @Transactional(readOnly = true)
     public List<PositionResponseDTO> getAllPositions() {
         List<Position> positions = positionRepository.findAll();
+
+        if (positions.isEmpty()) {
+            throw new PositionException(PositionExceptionResponseCode.POSITION_NOT_FOUND, "직급을 찾을 수 없습니다.");
+        }
+
         return positions.stream()
                 .map(PositionResponseDTO::fromEntity)
                 .collect(Collectors.toList());
@@ -72,14 +77,14 @@ public class PositionServiceImpl implements PositionService {
                 .collect(Collectors.toList());
     }
 
-    // 직책 코드로 검색
+    // 직급 목록 가져오기(직급 명)
     @Override
     @Transactional(readOnly = true)
     public List<PositionResponseDTO> getPositionByName(String positionName) {
         List<Position> positions = positionRepository.findByPositionName(positionName);
 
         if (positions.isEmpty()) {
-            throw new PositionException(PositionExceptionResponseCode.POSITION_NOT_FOUND, "직책을 찾을 수 없습니다.");
+            throw new PositionException(PositionExceptionResponseCode.POSITION_NOT_FOUND, "직급을 찾을 수 없습니다.");
         }
 
         return positions.stream()

@@ -1,6 +1,6 @@
 package com.wms.domain.position.controller;
 
-import com.wms.domain.department.dto.request.PositionRequestDTO;
+import com.wms.domain.position.dto.request.PositionRequestDTO;
 import com.wms.domain.position.dto.response.PositionResponseDTO;
 import com.wms.domain.position.service.PositionService;
 import com.wms.global.util.response.ApiResponse;

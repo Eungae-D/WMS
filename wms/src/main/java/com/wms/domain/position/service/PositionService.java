@@ -1,6 +1,6 @@
 package com.wms.domain.position.service;
 
-import com.wms.domain.department.dto.request.PositionRequestDTO;
+import com.wms.domain.position.dto.request.PositionRequestDTO;
 import com.wms.domain.position.dto.response.PositionResponseDTO;
 import jakarta.validation.Valid;
 

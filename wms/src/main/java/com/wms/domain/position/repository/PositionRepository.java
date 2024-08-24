@@ -16,7 +16,6 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
     @Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Position p WHERE p.position_code = :positionCode")
     boolean existsByPositionCode(@Param("positionCode") String positionCode);
 
-
     // 직급 코드로 직급 검색
     @Query("SELECT p FROM Position p WHERE p.position_code LIKE %:positionCode%")
     List<Position> findByPositionCode(@Param("positionCode")String positionCode);
