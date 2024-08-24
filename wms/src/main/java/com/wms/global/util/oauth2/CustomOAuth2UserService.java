@@ -4,13 +4,16 @@ import com.wms.domain.user.entity.Role;
 import com.wms.domain.user.entity.SocialType;
 import com.wms.domain.user.entity.User;
 import com.wms.domain.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -44,14 +47,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if(byUser.isEmpty()){
             String username = oAuth2Response.getProvider()+" "+oAuth2Response.getName();
 
-            User user = new User(SocialType.KAKAO,oAuth2Response.getEmail(),username, Role.USER,oAuth2Response.getProfileImage());
+            User user = new User(SocialType.KAKAO,oAuth2Response.getEmail(),username, Role.GUEST,oAuth2Response.getProfileImage());
 
             userRepository.save(user);
             return new CustomOAuth2User(user);
         }else{
-            //회원가입 유저 있으면 로그인 진행
+            //회원가입 유저 있으면 기존 카카오로그인 진행
             User user = byUser.get();
-            return new CustomOAuth2User(user);
+            if(user.getSocialType() == SocialType.KAKAO){
+                return new CustomOAuth2User(user);
+            }else{
+                // 일반 로그인 사용자가 카카오 로그인 시도 시 에러 처리
+                throw new OAuth2AuthenticationException("이미 해당 이메일로 가입된 계정이 있습니다. 일반 로그인을 이용해 주세요.");
+            }
         }
     }
 }

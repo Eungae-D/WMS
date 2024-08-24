@@ -1,5 +1,7 @@
 package com.wms.domain.user.entity;
 
+import com.wms.domain.department.entity.Department;
+import com.wms.domain.position.entity.Position;
 import com.wms.domain.token.entity.Token;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
@@ -38,17 +40,22 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String profileImage;
 
-    @Column(nullable = false)
-    private boolean authorization;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Token token;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_id", nullable = false)
+    private Position position;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Token> token = new ArrayList<>();
 
     @Builder
-    public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage, boolean authorization){
+    public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage,Department department, Position position){
         this.id = id;
         this.socialType = socialType;
         this.email = email;
@@ -56,7 +63,8 @@ public class User extends BaseEntity {
         this.name = name;
         this.role = role;
         this.profileImage = profileImage;
-        this.authorization = authorization;
+        this.department = department;
+        this.position = position;
     }
 
     //소셜로그인 생성자

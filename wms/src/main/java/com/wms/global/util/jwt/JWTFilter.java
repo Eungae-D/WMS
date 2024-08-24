@@ -2,7 +2,6 @@ package com.wms.global.util.jwt;
 
 import com.wms.domain.user.entity.Role;
 import com.wms.domain.user.entity.User;
-import com.wms.global.util.response.CustomUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -29,58 +27,63 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        //회원가입, 이메일체크, 로그인은 jwt필터를 넘어가도 됌
+        String path = request.getRequestURI();
+//        if (path.equals("/api/v1/users/register") || path.equals("/login")) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+        if (path.equals("/login")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         Optional<String> accessTokenOptional = findAccessToken(request, "accessToken");
 
-        // 토큰이 없다면 다음 필터로 넘김 -> 로그인 과정인지 아닌지 확인하기 위해서
+        // 토큰이 없다면 에러 메시지를 return
         if (accessTokenOptional.isEmpty()) {
             log.error("요청 경로 : " + request.getRequestURI() + " / 쿠키 없음.");
             sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "쿠키가 존재하지 않습니다.");
-            filterChain.doFilter(request, response);
             return;
         }
 
         // 엑세스 토큰 추출
         String accessToken = accessTokenOptional.get();
 
-        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음
-        try {
-            jwtUtil.isExpired(accessToken);
-        } catch (ExpiredJwtException e) {
-            //response body
-            PrintWriter writer = response.getWriter();
-            writer.print("access token expired");
-
-            //response status code
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
 
         // 토큰이 access인지 확인 (발급시 페이로드에 명시)
         String category = jwtUtil.getCategory(accessToken);
 
         if (!category.equals("accessToken")) {
 
-            //response body
-            PrintWriter writer = response.getWriter();
-            writer.print("invalid access token");
+            log.error("category : { } / 토큰 형식이 잘못되었음.", category);
 
             //response status code
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "토큰형식이 잘못 되었습니다.");
+            return;
+        }
+
+        // 토큰 만료 여부 확인, 만료시 다음 필터로 넘기지 않음 -> 프론트에서 리프레시 토큰으로 엑세스토큰 재발급 요청을 보냄.
+        try {
+            jwtUtil.isExpired(accessToken);
+        } catch (ExpiredJwtException e) {
+
+            log.error("엑세스 토큰 만료됨: { }", accessToken);
+            //response status code
+            sendErrorResponse(response, HttpStatus.UNAUTHORIZED, "액세스 토큰이 만료 되었습니다.");
             return;
         }
 
 
         // userId와 role 값을 획득
         Long userId = jwtUtil.getUserId(accessToken);
-        String email = jwtUtil.getEmail(accessToken);
         String role = jwtUtil.getRole(accessToken);
         Role userRole = Role.fromString(role);
 
         // User 객체 생성
         User user = User.builder()
                 .id(userId)
-                .email(email)
-                .password("temppassword")
                 .role(userRole)
                 .build();
 

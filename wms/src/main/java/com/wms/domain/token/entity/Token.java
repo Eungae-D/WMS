@@ -22,8 +22,8 @@ public class Token extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="user_id",nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = true, length = 200)
@@ -38,7 +38,7 @@ public class Token extends BaseEntity {
         this.expiredDate = expiredDate;
     }
 
-    public void addTokenValueAndExpireDate( String refreshToken, LocalDateTime expiredDate) {
+    public void updateToken(String refreshToken, LocalDateTime expiredDate) {
         this.refreshToken = refreshToken;
         this.expiredDate = expiredDate;
     }

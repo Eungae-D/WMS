@@ -1,4 +1,4 @@
-package com.wms.global.util.response;
+package com.wms.global.util.jwt;
 
 
 import com.wms.domain.user.entity.User;

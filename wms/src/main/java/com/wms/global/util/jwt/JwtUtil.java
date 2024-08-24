@@ -26,6 +26,8 @@ public class JwtUtil {
     public Long getUserId(String token) {
         return Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("userId", Long.class);
     }
+
+    //사용하지 x
     public String getEmail(String token){
         return Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("email", String.class);
     }
