@@ -21,14 +21,14 @@ public class S3ServiceImpl implements S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.dir}")
-    private String dir;
+//    @Value("${cloud.aws.s3.dir}")
+//    private String dir;
 
     // 파일 업로드
     @Override
     public String uploadFile(MultipartFile multipartFile, String url) {
         // 기본 디렉토리 설정
-        String fileName = dir + "/" + UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
+        String fileName = url + "/" + UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
         ObjectMetadata objMeta = new ObjectMetadata();
         objMeta.setContentLength(multipartFile.getSize());
         try {

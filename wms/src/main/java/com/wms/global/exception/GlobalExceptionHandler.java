@@ -66,6 +66,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
     }
 
+    // 상품 예외 핸들러
+    @ExceptionHandler(ItemException.class)
+    public ResponseEntity<ApiResponse<?>> handleItemException(ItemException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
 
 }
 
