@@ -41,10 +41,11 @@ public class PositionServiceImpl implements PositionService {
     @Override
     @Transactional
     public void deletePosition(Long positionId) {
-        if (!positionRepository.existsById(positionId)) {
-            throw new PositionException(PositionExceptionResponseCode.POSITION_NOT_FOUND, "직급을 찾을 수 없습니다.");
-        }
-        positionRepository.deleteById(positionId);
+        Position position = positionRepository.findById(positionId)
+                .orElseThrow(() -> new PositionException(PositionExceptionResponseCode.POSITION_NOT_FOUND, "직급을 찾을 수 없습니다."));
+
+        // 직급 삭제
+        positionRepository.delete(position);
     }
 
     // 직급 목록 가져오기

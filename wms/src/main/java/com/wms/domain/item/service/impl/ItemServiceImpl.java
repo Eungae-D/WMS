@@ -69,9 +69,10 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new ItemException(ItemExceptionResponseCode.ITEM_NOT_FOUND,"해당 상품을 찾을 수 없습니다."));
 
-        // S3에서 이미지 삭제
-        if (item.getItemImage() != null) {
-            s3Service.delete(item.getItemImage());
+        // S3에서 이미지 삭제 (defaultImage가 아닌 경우에만)
+        String imageUrl = item.getItemImage();
+        if (imageUrl != null && !imageUrl.endsWith("/defaultImage")) {
+            s3Service.delete(imageUrl);
         }
 
         // DB에서 상품 삭제

@@ -38,10 +38,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public void deleteClient(Long clientId){
-        if(!clientRepository.existsById(clientId)){
-            throw new ClientException(ClientExceptionResponseCode.CLIENT_NOT_FOUND, "거래처를 찾을 수 없습니다.");
-        }
-        clientRepository.deleteById(clientId);
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException(ClientExceptionResponseCode.CLIENT_NOT_FOUND, "거래처를 찾을 수 없습니다."));
+
+        // 클라이언트 삭제
+        clientRepository.delete(client);
     }
 
     // 거래처 목록 가져오기

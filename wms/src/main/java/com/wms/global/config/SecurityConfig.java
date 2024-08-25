@@ -95,14 +95,29 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/position/delete/**").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/position/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 거래처
-                .requestMatchers("/api/v1/client/register").hasAnyAuthority("MANAGER","ADMIN")
-                .requestMatchers("/api/v1/client/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/client/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/client/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/client/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 상품
-                .requestMatchers("/api/v1/item/register").hasAnyAuthority("MANAGER","ADMIN")
-                .requestMatchers("/api/v1/item/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/item/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/item/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/item/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
-
+                // 창고
+                .requestMatchers("/api/v1/warehouse/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/warehouse/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/warehouse/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 구역
+                .requestMatchers("/api/v1/area/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/area/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/area/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 랙
+                .requestMatchers("/api/v1/rack/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/rack/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/rack/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 셀
+                .requestMatchers("/api/v1/cell/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/cell/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/cell/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 .anyRequest().authenticated();
     }
 }
