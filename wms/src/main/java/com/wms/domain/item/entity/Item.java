@@ -1,6 +1,7 @@
 package com.wms.domain.item.entity;
 
 import com.wms.domain.client.entity.Client;
+import com.wms.domain.inventory.entity.Inventory;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +41,9 @@ public class Item extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Inventory> inventory = new ArrayList<>();
 
     @Builder
     public Item(String code, String name, Long unitPrice, Long shippingPrice, String itemImage, Client client) {

@@ -2,6 +2,7 @@ package com.wms.domain.area.entity;
 
 import com.wms.domain.cell.entity.Cell;
 import com.wms.domain.client.entity.Client;
+import com.wms.domain.inventory.entity.Inventory;
 import com.wms.domain.rack.entity.Rack;
 import com.wms.domain.warehouse.entity.Warehouse;
 import com.wms.global.BaseEntity;
@@ -37,6 +38,9 @@ public class Area extends BaseEntity {
 
     @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Rack> racks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Inventory> inventory = new ArrayList<>();
 
     @Builder
     public Area(String code, String name, Warehouse warehouse){

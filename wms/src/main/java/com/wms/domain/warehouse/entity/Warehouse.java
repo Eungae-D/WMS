@@ -1,6 +1,7 @@
 package com.wms.domain.warehouse.entity;
 
 import com.wms.domain.area.entity.Area;
+import com.wms.domain.inventory.entity.Inventory;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -30,6 +31,9 @@ public class Warehouse extends BaseEntity {
 
     @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Area> areas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Inventory> inventory = new ArrayList<>();
 
     @Builder
     public Warehouse(String code, String name){
