@@ -122,6 +122,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/lot/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/lot/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 재고
+                .requestMatchers("/api/v1/inventory/register").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/inventory/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/inventory/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
 

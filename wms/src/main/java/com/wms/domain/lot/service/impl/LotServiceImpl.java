@@ -1,6 +1,7 @@
 package com.wms.domain.lot.service.impl;
 
 import com.wms.domain.item.entity.Item;
+import com.wms.domain.lot.dto.response.LotResponseDTO;
 import com.wms.domain.lot.entity.Lot;
 import com.wms.domain.lot.repository.LotRepository;
 import com.wms.domain.lot.service.LotService;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,4 +49,18 @@ public class LotServiceImpl implements LotService {
         return lot;
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LotResponseDTO> getAllLots() {
+        List<Lot> lots = lotRepository.findAllWithFetchJoin();
+
+        if (lots.isEmpty()) {
+            throw new LotException(LotExceptionResponseCode.LOT_NOT_FOUND, "로트를 찾을 수 없습니다.");
+        }
+
+        return lots.stream()
+                .map(LotResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
 }
