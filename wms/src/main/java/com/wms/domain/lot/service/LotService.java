@@ -13,4 +13,7 @@ public interface LotService {
 
     // 로트 목록 가져오기
     List<LotResponseDTO> getAllLots();
+
+    // 로트 삭제
+    void deleteLot(Long lotId);
 }

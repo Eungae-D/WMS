@@ -49,7 +49,7 @@ public class LotServiceImpl implements LotService {
         return lot;
     }
 
-
+    // 로트 목록 가져오기
     @Override
     @Transactional(readOnly = true)
     public List<LotResponseDTO> getAllLots() {
@@ -62,5 +62,15 @@ public class LotServiceImpl implements LotService {
         return lots.stream()
                 .map(LotResponseDTO::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    // 로트 삭제
+    @Override
+    @Transactional
+    public void deleteLot(Long lotId) {
+        Lot lot = lotRepository.findById(lotId)
+                .orElseThrow(() -> new LotException(LotExceptionResponseCode.LOT_NOT_FOUND, "로트를 찾을 수 없습니다."));
+
+        lotRepository.delete(lot);
     }
 }
