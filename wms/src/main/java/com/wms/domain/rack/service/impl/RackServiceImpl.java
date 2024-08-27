@@ -60,9 +60,6 @@ public class RackServiceImpl implements RackService {
     @Transactional(readOnly = true)
     public List<RackResponseDTO> getAllRacks() {
         List<Rack> racks = rackRepository.findAll();
-        if (racks.isEmpty()) {
-            throw new RackException(RackExceptionResponseCode.RACK_NOT_FOUND, "랙을 찾을 수 없습니다.");
-        }
         return racks.stream()
                 .map(RackResponseDTO::fromEntity)
                 .collect(Collectors.toList());

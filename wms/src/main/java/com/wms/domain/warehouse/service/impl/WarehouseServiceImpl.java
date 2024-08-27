@@ -53,9 +53,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Transactional(readOnly = true)
     public List<WarehouseResponseDTO> getAllWarehouses() {
         List<Warehouse> warehouses = warehouseRepository.findAll();
-        if (warehouses.isEmpty()) {
-            throw new WarehouseException(WarehouseExceptionResponseCode.WAREHOUSE_NOT_FOUND, "창고를 찾을 수 없습니다.");
-        }
         return warehouses.stream()
                 .map(WarehouseResponseDTO::fromEntity)
                 .collect(Collectors.toList());

@@ -59,9 +59,6 @@ public class AreaServiceImpl implements AreaService {
     @Transactional(readOnly = true)
     public List<AreaResponseDTO> getAllAreas() {
         List<Area> areas = areaRepository.findAll();
-        if (areas.isEmpty()) {
-            throw new AreaException(AreaExceptionResponseCode.AREA_NOT_FOUND, "구역을 찾을 수 없습니다.");
-        }
         return areas.stream()
                 .map(AreaResponseDTO::fromEntity)
                 .collect(Collectors.toList());

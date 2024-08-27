@@ -60,9 +60,6 @@ public class CellServiceImpl implements CellService {
     @Transactional(readOnly = true)
     public List<CellResponseDTO> getAllCells() {
         List<Cell> cells = cellRepository.findAll();
-        if (cells.isEmpty()) {
-            throw new CellException(CellExceptionResponseCode.CELL_NOT_FOUND, "셀을 찾을 수 없습니다.");
-        }
         return cells.stream()
                 .map(CellResponseDTO::fromEntity)
                 .collect(Collectors.toList());

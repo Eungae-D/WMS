@@ -2,7 +2,6 @@ package com.wms.domain.warehouse.service;
 
 import com.wms.domain.warehouse.dto.request.WarehouseRequestDTO;
 import com.wms.domain.warehouse.dto.response.WarehouseResponseDTO;
-import com.wms.domain.warehouse.entity.Warehouse;
 import jakarta.validation.Valid;
 
 import java.util.List;
