@@ -39,10 +39,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public void deleteDepartment(Long departmentId) {
-        if (!departmentRepository.existsById(departmentId)) {
-            throw new DepartmentException(DepartmentExceptionResponseCode.DEPARTMENT_NOT_FOUND, "부서를 찾을 수 없습니다.");
-        }
-        departmentRepository.deleteById(departmentId);
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new DepartmentException(DepartmentExceptionResponseCode.DEPARTMENT_NOT_FOUND, "부서를 찾을 수 없습니다."));
+        departmentRepository.delete(department);
     }
     // 부서 목록 가져오기
     @Override

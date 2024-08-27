@@ -95,13 +95,36 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/position/delete/**").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/position/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 거래처
-                .requestMatchers("/api/v1/client/register").hasAnyAuthority("MANAGER","ADMIN")
-                .requestMatchers("/api/v1/client/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/client/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/client/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/client/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 상품
-                .requestMatchers("/api/v1/item/register").hasAnyAuthority("MANAGER","ADMIN")
-                .requestMatchers("/api/v1/item/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/item/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/item/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/item/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 창고
+                .requestMatchers("/api/v1/warehouse/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/warehouse/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/warehouse/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 구역
+                .requestMatchers("/api/v1/area/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/area/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/area/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 랙
+                .requestMatchers("/api/v1/rack/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/rack/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/rack/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 셀
+                .requestMatchers("/api/v1/cell/register").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/cell/delete/**").hasAnyAuthority("MANAGER","ADMIN")
+                .requestMatchers("/api/v1/cell/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 로트
+                .requestMatchers("/api/v1/lot/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/lot/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 재고
+                .requestMatchers("/api/v1/inventory/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/inventory/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/inventory/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
 
                 .anyRequest().authenticated();
     }

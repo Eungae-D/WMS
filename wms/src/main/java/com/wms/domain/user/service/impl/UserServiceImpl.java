@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 
         String profileImageUrl;
         if (signUpRequestDTO.getProfileImage() != null && !signUpRequestDTO.getProfileImage().isEmpty()) {
-            profileImageUrl = s3Service.uploadFile(signUpRequestDTO.getProfileImage(), "users/profile_images");
+            profileImageUrl = s3Service.uploadFile(signUpRequestDTO.getProfileImage(), "users");
         } else {
             profileImageUrl = defaultProfileImageUrl; // 기본 이미지 URL 설정
         }

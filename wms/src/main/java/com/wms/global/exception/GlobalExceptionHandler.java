@@ -66,6 +66,68 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
     }
 
+    // 상품 예외 핸들러
+    @ExceptionHandler(ItemException.class)
+    public ResponseEntity<ApiResponse<?>> handleItemException(ItemException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    // 창고 예외 핸들러
+    @ExceptionHandler(WarehouseException.class)
+    public ResponseEntity<ApiResponse<?>> handleWarehouseException(WarehouseException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    // 구역 예외 핸들러
+    @ExceptionHandler(AreaException.class)
+    public ResponseEntity<ApiResponse<?>> handleAreaException(AreaException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    // 랙 예외 핸들러
+    @ExceptionHandler(RackException.class)
+    public ResponseEntity<ApiResponse<?>> handleRackException(RackException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    // 셀 예외 핸들러
+    @ExceptionHandler(CellException.class)
+    public ResponseEntity<ApiResponse<?>> handleCellException(CellException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    // 로트 예외 핸들러
+    @ExceptionHandler(LotException.class)
+    public ResponseEntity<ApiResponse<?>> handleLotException(LotException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
+
+    // 재고 예외 핸들러
+    @ExceptionHandler(InventoryException.class)
+    public ResponseEntity<ApiResponse<?>> handleInventoryException(InventoryException e, HttpServletRequest request){
+
+        log.error("요청 경로 : {}, 실패 이유 : {}, 로그 : {}", request.getRequestURI(), e.getExceptionCode().getCode(), e.getLog());
+
+        return ResponseEntity.status(e.getExceptionCode().getStatus()).body(ApiResponse.createError(e.getExceptionCode().getCode(), e.getExceptionCode().getMessage()));
+    }
 
 }
 
