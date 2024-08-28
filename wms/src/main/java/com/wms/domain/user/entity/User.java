@@ -2,6 +2,7 @@ package com.wms.domain.user.entity;
 
 import com.wms.domain.department.entity.Department;
 import com.wms.domain.inventory.entity.Inventory;
+import com.wms.domain.orderSheet.entity.OrderSheet;
 import com.wms.domain.position.entity.Position;
 import com.wms.domain.token.entity.Token;
 import com.wms.global.BaseEntity;
@@ -57,6 +58,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Inventory> inventory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderSheet> orderSheet = new ArrayList<>();
 
     @Builder
     public User(Long id, SocialType socialType, String email, String password, String name, Role role, String profileImage,Department department, Position position){
