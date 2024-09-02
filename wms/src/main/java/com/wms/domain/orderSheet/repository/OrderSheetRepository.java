@@ -4,6 +4,7 @@ import com.wms.domain.orderSheet.entity.OrderSheet;
 import com.wms.domain.orderSheet.entity.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
