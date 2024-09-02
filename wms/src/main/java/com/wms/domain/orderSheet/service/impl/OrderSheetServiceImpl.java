@@ -4,6 +4,7 @@ import com.wms.domain.client.entity.Client;
 import com.wms.domain.client.repository.ClientRepository;
 import com.wms.domain.orderDetail.service.OrderDetailService;
 import com.wms.domain.orderSheet.dto.request.OrderSheetRequestDTO;
+import com.wms.domain.orderSheet.dto.response.OrderSheetResponseDTO;
 import com.wms.domain.orderSheet.entity.OrderSheet;
 import com.wms.domain.orderSheet.repository.OrderSheetRepository;
 import com.wms.domain.orderSheet.service.OrderSheetService;
@@ -17,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,5 +50,20 @@ public class OrderSheetServiceImpl implements OrderSheetService {
         orderSheetRepository.save(orderSheet);
 
         orderDetailService.createOrderDetails(orderSheet, orderSheetRequestDTO.getOrderDetails());
+    }
+
+    // 수주서 목록 가져오기
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderSheetResponseDTO> getAllOrderSheets() {
+        List<OrderSheet> orderSheets = orderSheetRepository.findAllOrderSheetsWithDetails();
+
+        if (orderSheets.isEmpty()) {
+            throw new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEETS_EMPTY, "수주서 목록이 비어 있습니다.");
+        }
+
+        return orderSheets.stream()
+                .map(OrderSheetResponseDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }
