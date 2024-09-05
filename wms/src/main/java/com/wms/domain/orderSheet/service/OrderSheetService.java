@@ -12,4 +12,7 @@ public interface OrderSheetService {
 
     // 수주서 목록 가져오기
     List<OrderSheetResponseDTO> getAllOrderSheets();
+
+    // 수주서 삭제
+    void deleteOrderSheet(Long orderSheetId);
 }

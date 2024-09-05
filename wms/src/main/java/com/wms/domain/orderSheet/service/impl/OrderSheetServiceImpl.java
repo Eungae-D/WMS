@@ -66,4 +66,14 @@ public class OrderSheetServiceImpl implements OrderSheetService {
                 .map(OrderSheetResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    // 수주서 삭제
+    @Override
+    @Transactional
+    public void deleteOrderSheet(Long orderSheetId) {
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId)
+                .orElseThrow(() -> new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEET_EMPTY, "수주서를 찾을 수 없습니다."));
+
+        orderSheetRepository.delete(orderSheet);
+    }
 }

@@ -33,4 +33,11 @@ public class OrderSheetController {
         List<OrderSheetResponseDTO> orderSheetList = orderSheetService.getAllOrderSheets();
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(orderSheetList, "수주서 목록 가져오기 성공"));
     }
+
+    // 수주서 삭제
+    @DeleteMapping("/delete/{orderSheetId}")
+    public ResponseEntity<ApiResponse<?>> deleteOrderSheet(@PathVariable Long orderSheetId) {
+        orderSheetService.deleteOrderSheet(orderSheetId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.createSuccessNoContent("수주서 삭제 성공"));
+    }
 }

@@ -1,10 +1,9 @@
-package com.wms.domain.area.entity;
+package com.wms.domain.purchaseDetail.entity;
 
-import com.wms.domain.cell.entity.Cell;
 import com.wms.domain.client.entity.Client;
 import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
-import com.wms.domain.inventory.entity.Inventory;
-import com.wms.domain.rack.entity.Rack;
+import com.wms.domain.item.entity.Item;
+import com.wms.domain.purchaseSheet.entity.PurchaseSheet;
 import com.wms.domain.warehouse.entity.Warehouse;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
@@ -21,35 +20,41 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Area extends BaseEntity {
+public class PurchaseDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String code;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchaseSheet_id", nullable = false)
+    private PurchaseSheet purchaseSheet;
 
     @Column(nullable = false)
-    private String name;
+    private Long amount;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id", nullable = false)
     private Warehouse warehouse;
 
-    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Rack> racks = new ArrayList<>();
-
-    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Inventory> inventory = new ArrayList<>();
-
-    @OneToMany(mappedBy = "area", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "purchaseDetail", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<InputWarehouseDetail> inputWarehouseDetails = new ArrayList<>();
 
     @Builder
-    public Area(String code, String name, Warehouse warehouse){
-        this.code = code;
-        this.name = name;
+    public PurchaseDetail(PurchaseSheet purchaseSheet, Long amount,Status status, Item item, Warehouse warehouse){
+        this.purchaseSheet = purchaseSheet;
+        this.amount = amount;
+        this.status = status;
+        this.item = item;
         this.warehouse = warehouse;
     }
 }

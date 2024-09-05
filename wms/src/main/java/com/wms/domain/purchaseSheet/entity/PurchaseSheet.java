@@ -1,9 +1,10 @@
-package com.wms.domain.orderSheet.entity;
+package com.wms.domain.purchaseSheet.entity;
 
 import com.wms.domain.client.entity.Client;
-import com.wms.domain.inventory.entity.Inventory;
+import com.wms.domain.inputWarehouse.entity.InputWarehouse;
 import com.wms.domain.orderDetail.entity.OrderDetail;
-import com.wms.domain.sell.entity.Sell;
+import com.wms.domain.orderSheet.entity.OrderSheet;
+import com.wms.domain.purchaseDetail.entity.PurchaseDetail;
 import com.wms.domain.user.entity.User;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class OrderSheet extends BaseEntity {
+public class PurchaseSheet extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,10 @@ public class OrderSheet extends BaseEntity {
     private LocalDate dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderSheet_id", nullable = false)
+    private OrderSheet orderSheet;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -42,16 +47,18 @@ public class OrderSheet extends BaseEntity {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @OneToMany(mappedBy = "orderSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OrderDetail> orderDetails = new ArrayList<>();
+    @OneToMany(mappedBy = "purchaseSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PurchaseDetail> purchaseDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "orderSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Sell> sells = new ArrayList<>();
+    @OneToMany(mappedBy = "purchaseSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<InputWarehouse> inputWarehouses = new ArrayList<>();
+
 
     @Builder
-    public OrderSheet(Status status, LocalDate dueDate, User user, Client client) {
+    public PurchaseSheet(Status status, LocalDate dueDate, OrderSheet orderSheet, User user, Client client){
         this.status = status;
         this.dueDate = dueDate;
+        this.orderSheet = orderSheet;
         this.user = user;
         this.client = client;
     }

@@ -127,8 +127,15 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/inventory/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 수주서
                 .requestMatchers("/api/v1/orderSheet/register").hasAnyAuthority("USER","MANAGER","ADMIN")
-                .requestMatchers("/api/v1/inventory/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
-                .requestMatchers("/api/v1/inventory/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/orderSheet/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/orderSheet/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 수주서 상세
+                .requestMatchers("/api/v1/orderDetail/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 발주서
+                .requestMatchers("/api/v1/sell/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/sell/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/sell/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+
 
                 .anyRequest().authenticated();
     }

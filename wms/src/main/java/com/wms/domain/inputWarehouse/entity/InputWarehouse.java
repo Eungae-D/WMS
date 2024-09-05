@@ -1,8 +1,8 @@
-package com.wms.domain.cell.entity;
+package com.wms.domain.inputWarehouse.entity;
 
 import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
-import com.wms.domain.inventory.entity.Inventory;
-import com.wms.domain.rack.entity.Rack;
+import com.wms.domain.purchaseSheet.entity.PurchaseSheet;
+import com.wms.domain.user.entity.User;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,32 +18,31 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Cell extends BaseEntity {
+public class InputWarehouse extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String code;
-
-    @Column(nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rack_id", nullable = false)
-    private Rack rack;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @OneToMany(mappedBy = "cell", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Inventory> inventory = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchaseSheet_id", nullable = false)
+    private PurchaseSheet purchaseSheet;
 
-    @OneToMany(mappedBy = "cell", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "inputWarehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<InputWarehouseDetail> inputWarehouseDetails = new ArrayList<>();
 
     @Builder
-    public Cell(String code, String name, Rack rack){
-        this.code = code;
-        this.name = name;
-        this.rack = rack;
+    public InputWarehouse(Status status, User user, PurchaseSheet purchaseSheet){
+        this.status = status;
+        this.user = user;
+        this.purchaseSheet = purchaseSheet;
     }
 }
