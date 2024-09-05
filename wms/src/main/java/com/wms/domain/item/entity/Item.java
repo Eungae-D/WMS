@@ -3,8 +3,10 @@ package com.wms.domain.item.entity;
 import com.wms.domain.client.entity.Client;
 import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inventory.entity.Inventory;
+import com.wms.domain.lot.entity.Lot;
 import com.wms.domain.orderDetail.entity.OrderDetail;
 import com.wms.domain.purchaseDetail.entity.PurchaseDetail;
+import com.wms.domain.sellDetail.entity.SellDetail;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -47,6 +49,12 @@ public class Item extends BaseEntity {
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Inventory> inventory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Lot> lots = new ArrayList<>();
+
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SellDetail> cellDetails = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();

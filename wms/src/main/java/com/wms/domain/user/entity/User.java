@@ -5,6 +5,7 @@ import com.wms.domain.inputWarehouse.entity.InputWarehouse;
 import com.wms.domain.inventory.entity.Inventory;
 import com.wms.domain.orderSheet.entity.OrderSheet;
 import com.wms.domain.position.entity.Position;
+import com.wms.domain.purchaseSheet.entity.PurchaseSheet;
 import com.wms.domain.sell.entity.Sell;
 import com.wms.domain.token.entity.Token;
 import com.wms.global.BaseEntity;
@@ -66,6 +67,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Sell> sells = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PurchaseSheet> purchaseSheets = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<InputWarehouse> inputWarehouses = new ArrayList<>();

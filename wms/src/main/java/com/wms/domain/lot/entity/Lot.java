@@ -29,7 +29,6 @@ public class Lot extends BaseEntity {
     @Column(nullable = false)
     private String lotNumber;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;

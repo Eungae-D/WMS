@@ -3,6 +3,7 @@ package com.wms.domain.orderSheet.entity;
 import com.wms.domain.client.entity.Client;
 import com.wms.domain.inventory.entity.Inventory;
 import com.wms.domain.orderDetail.entity.OrderDetail;
+import com.wms.domain.purchaseSheet.entity.PurchaseSheet;
 import com.wms.domain.sell.entity.Sell;
 import com.wms.domain.user.entity.User;
 import com.wms.global.BaseEntity;
@@ -44,6 +45,9 @@ public class OrderSheet extends BaseEntity {
 
     @OneToMany(mappedBy = "orderSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "orderSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PurchaseSheet> purchaseSheets = new ArrayList<>();
 
     @OneToMany(mappedBy = "orderSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Sell> sells = new ArrayList<>();
