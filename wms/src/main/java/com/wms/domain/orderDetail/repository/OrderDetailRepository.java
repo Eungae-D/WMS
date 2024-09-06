@@ -17,6 +17,8 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail,Long> {
             "JOIN FETCH i.client c " +
             "LEFT JOIN FETCH i.inventory inv " +
             "JOIN FETCH od.orderSheet os " +
+            "JOIN FETCH os.user u " +
+            "JOIN FETCH u.department d " +
             "WHERE os.id = :orderSheetId")
     List<OrderDetail> findOrderDetailsByOrderSheetId(@Param("orderSheetId") Long orderSheetId);
 

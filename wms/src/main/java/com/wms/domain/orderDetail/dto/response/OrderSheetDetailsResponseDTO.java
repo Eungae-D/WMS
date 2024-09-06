@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
-public class OrderSheetDetailResponseDTO {
+public class OrderSheetDetailsResponseDTO {
 
     private String userName;         // 담당자 이름
     private String departmentName;   // 담당자 부서명

@@ -4,10 +4,12 @@ import com.wms.domain.item.entity.Item;
 import com.wms.domain.item.repository.ItemRepository;
 import com.wms.domain.orderDetail.dto.request.OrderDetailRequestDTO;
 import com.wms.domain.orderDetail.dto.response.OrderDetailResponseDTO;
+import com.wms.domain.orderDetail.dto.response.OrderSheetDetailsResponseDTO;
 import com.wms.domain.orderDetail.entity.OrderDetail;
 import com.wms.domain.orderDetail.repository.OrderDetailRepository;
 import com.wms.domain.orderDetail.service.OrderDetailService;
 import com.wms.domain.orderSheet.entity.OrderSheet;
+import com.wms.domain.orderSheet.repository.OrderSheetRepository;
 import com.wms.global.exception.exception.ItemException;
 import com.wms.global.exception.exception.OrderSheetException;
 import com.wms.global.exception.responseCode.ItemExceptionResponseCode;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderDetailServiceImpl implements OrderDetailService {
     private final OrderDetailRepository orderDetailRepository;
+    private final OrderSheetRepository orderSheetRepository;
     private final ItemRepository itemRepository;
 
     // 수주서 등록(품목)
@@ -44,16 +47,24 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     // 수주서 상세 조회
     @Override
     @Transactional(readOnly = true)
-    public List<OrderDetailResponseDTO> getOrderSheetDetails(Long orderSheetId) {
+    public OrderSheetDetailsResponseDTO getOrderSheetDetails(Long orderSheetId) {
+        // 수주서 정보 조회
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId)
+                .orElseThrow(() -> new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEET_EMPTY, "수주서를 찾을 수 없습니다."));
 
+        // 수주서에 해당하는 품목 리스트 조회
         List<OrderDetail> orderDetails = orderDetailRepository.findOrderDetailsByOrderSheetId(orderSheetId);
 
         if (orderDetails.isEmpty()) {
-            throw new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEET_EMPTY, "수주서를 찾을 수 없습니다.");
+            throw new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEET_EMPTY, "수주서에 품목이 존재하지 않습니다.");
         }
 
-        return orderDetails.stream()
+        // 품목 리스트를 DTO로 변환
+        List<OrderDetailResponseDTO> orderDetailResponseDTOs = orderDetails.stream()
                 .map(OrderDetailResponseDTO::fromEntity)
                 .collect(Collectors.toList());
-    }
+
+        // 수주서 정보와 품목 리스트를 합쳐서 DTO로 변환
+        return OrderSheetDetailsResponseDTO.fromEntity(orderSheet, orderDetailResponseDTOs);
+        }
 }
