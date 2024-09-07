@@ -15,8 +15,10 @@ import java.time.LocalDate;
 public class OrderDetailResponseDTO {
 
     private Long id;
+    private Long itemId;           // 품목 id
     private String itemCode;         // 품목 코드
     private String itemName;         // 품목명
+    private Long itemClientId;       // 품목의 거래처 id
     private String itemClientName;   // 품목의 거래처 이름
     private String itemClientCode;   // 품목의 거래처 코드
     private Long orderQuantity;      // 주문 수량
@@ -34,8 +36,10 @@ public class OrderDetailResponseDTO {
 
         return OrderDetailResponseDTO.builder()
                 .id(orderDetail.getId())
+                .itemId(item.getId())
                 .itemCode(item.getCode())
                 .itemName(item.getName())
+                .itemClientId(item.getClient().getId())  // 품목의 거래처 id
                 .itemClientName(item.getClient().getName())  // 품목의 거래처 이름
                 .itemClientCode(item.getClient().getCode())  // 품목의 거래처 코드
                 .orderQuantity(orderQuantity)

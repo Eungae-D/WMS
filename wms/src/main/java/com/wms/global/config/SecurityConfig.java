@@ -132,9 +132,9 @@ public class SecurityConfig {
                 // 수주서 상세
                 .requestMatchers("/api/v1/orderDetail/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 발주서
-                .requestMatchers("/api/v1/sell/register").hasAnyAuthority("USER","MANAGER","ADMIN")
-                .requestMatchers("/api/v1/sell/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
-                .requestMatchers("/api/v1/sell/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/purchaseSheet/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/purchaseSheet/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/purchaseSheet/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
 
 
                 .anyRequest().authenticated();
