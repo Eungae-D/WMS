@@ -1,6 +1,7 @@
 package com.wms.domain.inputWarehouse.service.impl;
 
 import com.wms.domain.inputWarehouse.dto.request.InputWarehouseRequestDTO;
+import com.wms.domain.inputWarehouse.dto.response.InputWarehouseResponseDTO;
 import com.wms.domain.inputWarehouse.entity.InputWarehouse;
 import com.wms.domain.inputWarehouse.repository.InputWarehouseRepository;
 import com.wms.domain.inputWarehouse.service.InputWarehouseService;
@@ -15,6 +16,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -42,5 +46,13 @@ public class InputWarehouseServiceImpl implements InputWarehouseService {
 
         // 입고 상세 생성
         inputWarehouseDetailService.createInputWarehouseDetails(inputWarehouse, inputWarehouseRequestDTO.getInputWarehouseDetails());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InputWarehouseResponseDTO> getInputWarehouseList() {
+        return inputWarehouseRepository.findAllInputWarehousesWithDetails().stream()
+                .map(InputWarehouseResponseDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }

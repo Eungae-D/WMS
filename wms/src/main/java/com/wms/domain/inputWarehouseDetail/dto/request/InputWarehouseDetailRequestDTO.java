@@ -31,9 +31,6 @@ public class InputWarehouseDetailRequestDTO {
     @NotNull(message = "창고 ID는 필수입니다.")
     private Long warehouseId;
 
-    @NotNull(message = "도착 일자는 필수입니다.")
-    private LocalDateTime arrivalDateTime;
-
     @NotNull(message = "로트 ID는 필수입니다.")
     private Long lotId;
 
@@ -54,7 +51,6 @@ public class InputWarehouseDetailRequestDTO {
         return InputWarehouseDetail.builder()
                 .status(Status.PURCHASE)
                 .amount(amount)
-                .arrivalDateTime(arrivalDateTime)
                 .lot(lot)
                 .warehouse(warehouse)
                 .item(item)

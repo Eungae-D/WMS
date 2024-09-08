@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,9 @@ import java.util.List;
 public class InputWarehouseRequestDTO {
     @NotNull(message = "발주서 ID는 필수입니다.")
     private Long purchaseSheetId;
+
+    @NotNull(message = "입고 시간은 필수입니다.")
+    private LocalDateTime arrivalDateTime;
 
     @NotNull(message = "입고 상세 정보가 필요합니다.")
     private List<InputWarehouseDetailRequestDTO> inputWarehouseDetails;
@@ -29,6 +33,7 @@ public class InputWarehouseRequestDTO {
                 .status(Status.PURCHASE)
                 .user(user)
                 .purchaseSheet(purchaseSheet)
+                .arrivalDateTime(arrivalDateTime)
                 .build();
     }
 }

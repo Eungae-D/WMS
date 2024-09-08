@@ -33,9 +33,6 @@ public class InputWarehouseDetail extends BaseEntity {
     private Status status;
 
     @Column(nullable = false)
-    private LocalDateTime arrivalDateTime;
-
-    @Column(nullable = false)
     private Long amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,9 +68,8 @@ public class InputWarehouseDetail extends BaseEntity {
     private InputWarehouse inputWarehouse;
 
     @Builder
-    public InputWarehouseDetail(Status status, LocalDateTime arrivalDateTime, Long amount, Lot lot, Warehouse warehouse, Area area, Rack rack, Cell cell, Item item, PurchaseDetail purchaseDetail, InputWarehouse inputWarehouse){
+    public InputWarehouseDetail(Status status, Long amount, Lot lot, Warehouse warehouse, Area area, Rack rack, Cell cell, Item item, PurchaseDetail purchaseDetail, InputWarehouse inputWarehouse){
         this.status = status;
-        this.arrivalDateTime = arrivalDateTime;
         this.amount = amount;
         this.lot = lot;
         this.warehouse = warehouse;

@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +40,14 @@ public class InputWarehouse extends BaseEntity {
     @OneToMany(mappedBy = "inputWarehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<InputWarehouseDetail> inputWarehouseDetails = new ArrayList<>();
 
+    @Column(nullable = false)
+    private LocalDateTime arrivalDateTime;
+
     @Builder
-    public InputWarehouse(Status status, User user, PurchaseSheet purchaseSheet){
+    public InputWarehouse(Status status, User user, PurchaseSheet purchaseSheet, LocalDateTime arrivalDateTime){
         this.status = status;
         this.user = user;
         this.purchaseSheet = purchaseSheet;
+        this.arrivalDateTime = arrivalDateTime;
     }
 }
