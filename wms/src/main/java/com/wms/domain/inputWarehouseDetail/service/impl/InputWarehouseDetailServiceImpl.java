@@ -6,6 +6,7 @@ import com.wms.domain.cell.entity.Cell;
 import com.wms.domain.cell.repository.CellRepository;
 import com.wms.domain.inputWarehouse.entity.InputWarehouse;
 import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailRequestDTO;
+import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
 import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inputWarehouseDetail.repository.InputWarehouseDetailRepository;
 import com.wms.domain.inputWarehouseDetail.service.InputWarehouseDetailService;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -65,5 +67,21 @@ public class InputWarehouseDetailServiceImpl implements InputWarehouseDetailServ
             InputWarehouseDetail inputWarehouseDetail = detailRequest.toEntity(inputWarehouse,item,warehouse,lot,purchaseDetail,area,rack,cell);
             inputWarehouseDetailRepository.save(inputWarehouseDetail);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InputWarehouseDetailsResponseDTO> getInputWarehouseDetails(Long inputWarehouseId) {
+
+        // 입고서 상세 정보 조회
+        List<InputWarehouseDetail> inputWarehouseDetails = inputWarehouseDetailRepository.findAllByInputWarehouseId(inputWarehouseId);
+
+        if (inputWarehouseDetails.isEmpty()) {
+            throw new InputWarehouseDetailException(InputWarehouseDetailExceptionResponseCode.INPUT_WAREHOUSE_DETAIL_NOT_FOUND, "입고서 상세 정보를 찾을 수 없습니다.");
+        }
+
+        return inputWarehouseDetails.stream()
+                .map(InputWarehouseDetailsResponseDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }
