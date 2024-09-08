@@ -135,6 +135,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/purchaseSheet/register").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/purchaseSheet/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/purchaseSheet/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 입고
+                .requestMatchers("/api/v1/inputWarehouse/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/inputWarehouse/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/inputWarehouse/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
 
 
                 .anyRequest().authenticated();

@@ -16,11 +16,13 @@ public class PurchaseDetailResponseDTO {
     private Long amount;            // 발주 수량
     private Long unitPrice;          // 구매 단가
     private Long totalAmount;       // 합계 (구매 단가 * 발주 수량)
+    private Long warehouseId;       //  창고id
     private String warehouseName;    // 창고이름
 
     public static PurchaseDetailResponseDTO fromEntity(PurchaseDetail purchaseDetail) {
         return PurchaseDetailResponseDTO.builder()
                 .id(purchaseDetail.getId())
+                .warehouseId(purchaseDetail.getWarehouse().getId())
                 .warehouseName(purchaseDetail.getWarehouse().getName())
                 .itemId(purchaseDetail.getItem().getId())
                 .itemCode(purchaseDetail.getItem().getCode())

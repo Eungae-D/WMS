@@ -36,7 +36,7 @@ public class PurchaseSheet extends BaseEntity {
     private LocalDate dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderSheet_id", nullable = false)
+    @JoinColumn(name = "orderSheet_id") //수주서 없어도 가능
     private OrderSheet orderSheet;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,6 +47,10 @@ public class PurchaseSheet extends BaseEntity {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PurchaseType purchaseType;
+
     @OneToMany(mappedBy = "purchaseSheet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PurchaseDetail> purchaseDetails = new ArrayList<>();
 
@@ -55,11 +59,12 @@ public class PurchaseSheet extends BaseEntity {
 
 
     @Builder
-    public PurchaseSheet(Status status, LocalDate dueDate, OrderSheet orderSheet, User user, Client client){
+    public PurchaseSheet(Status status, LocalDate dueDate, OrderSheet orderSheet, User user, Client client,PurchaseType purchaseType){
         this.status = status;
         this.dueDate = dueDate;
         this.orderSheet = orderSheet;
         this.user = user;
         this.client = client;
+        this.purchaseType = purchaseType;
     }
 }
