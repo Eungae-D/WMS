@@ -1,5 +1,6 @@
 package com.wms.domain.cell.entity;
 
+import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inventory.entity.Inventory;
 import com.wms.domain.rack.entity.Rack;
 import com.wms.global.BaseEntity;
@@ -35,6 +36,9 @@ public class Cell extends BaseEntity {
 
     @OneToMany(mappedBy = "cell", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Inventory> inventory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cell", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<InputWarehouseDetail> inputWarehouseDetails = new ArrayList<>();
 
     @Builder
     public Cell(String code, String name, Rack rack){

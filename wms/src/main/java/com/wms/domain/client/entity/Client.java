@@ -1,6 +1,8 @@
 package com.wms.domain.client.entity;
 
 import com.wms.domain.item.entity.Item;
+import com.wms.domain.orderSheet.entity.OrderSheet;
+import com.wms.domain.purchaseSheet.entity.PurchaseSheet;
 import com.wms.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -64,6 +66,12 @@ public class Client extends BaseEntity {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderSheet> orderSheet = new ArrayList<>();
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PurchaseSheet> purchaseSheets = new ArrayList<>();
 
     @Builder
     public Client(String code, Category category, String name, String owner, String tel, String fax, String bank, String account, String zipCode, String address1, String address2, String email, String businessNumber){

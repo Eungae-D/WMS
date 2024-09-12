@@ -65,4 +65,32 @@ public class InventoryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(response, "평면 구조 데이터 조회 성공"));
     }
+
+    // 창고별 재고 목록 조회
+    @GetMapping("/list/warehouse/{warehouseId}")
+    public ResponseEntity<ApiResponse<?>> getInventoryByWarehouse(@PathVariable Long warehouseId) {
+        List<InventoryResponseDTO> inventoryList = inventoryService.getInventoryByWarehouseId(warehouseId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(inventoryList, "창고별 재고 목록 조회 성공"));
+    }
+
+    // 창고 및 구역별 재고 목록 조회
+    @GetMapping("/list/warehouse/{warehouseId}/area/{areaId}")
+    public ResponseEntity<ApiResponse<?>> getInventoryByWarehouseAndArea(@PathVariable Long warehouseId, @PathVariable Long areaId) {
+        List<InventoryResponseDTO> inventoryList = inventoryService.getInventoryByWarehouseIdAndAreaId(warehouseId, areaId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(inventoryList, "창고 및 구역별 재고 목록 조회 성공"));
+    }
+
+    // 창고, 구역 및 랙별 재고 목록 조회
+    @GetMapping("/list/warehouse/{warehouseId}/area/{areaId}/rack/{rackId}")
+    public ResponseEntity<ApiResponse<?>> getInventoryByWarehouseAreaAndRack(@PathVariable Long warehouseId, @PathVariable Long areaId, @PathVariable Long rackId) {
+        List<InventoryResponseDTO> inventoryList = inventoryService.getInventoryByWarehouseIdAndAreaIdAndRackId(warehouseId, areaId, rackId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(inventoryList, "창고, 구역 및 랙별 재고 목록 조회 성공"));
+    }
+
+    // 창고, 구역, 랙 및 셀별 재고 목록 조회
+    @GetMapping("/list/warehouse/{warehouseId}/area/{areaId}/rack/{rackId}/cell/{cellId}")
+    public ResponseEntity<ApiResponse<?>> getInventoryByWarehouseAreaRackAndCell(@PathVariable Long warehouseId, @PathVariable Long areaId, @PathVariable Long rackId, @PathVariable Long cellId) {
+        List<InventoryResponseDTO> inventoryList = inventoryService.getInventoryByWarehouseIdAndAreaIdAndRackIdAndCellId(warehouseId, areaId, rackId, cellId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(inventoryList, "창고, 구역, 랙 및 셀별 재고 목록 조회 성공"));
+    }
 }

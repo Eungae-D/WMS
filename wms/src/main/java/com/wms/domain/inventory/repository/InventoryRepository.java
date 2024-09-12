@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 
-
+    // 전체 재고 목록 조회
     @Query("SELECT inv FROM Inventory inv " +
             "JOIN FETCH inv.item i " +
             "JOIN FETCH inv.warehouse w " +
@@ -19,4 +19,48 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
             "JOIN FETCH inv.cell c " +
             "JOIN FETCH inv.lot l")
     List<Inventory> findAllWithDetails();
+
+    // 창고에 속한 재고 목록 조회
+    @Query("SELECT inv FROM Inventory inv " +
+            "JOIN FETCH inv.item i " +
+            "JOIN FETCH inv.warehouse w " +
+            "JOIN FETCH inv.area a " +
+            "JOIN FETCH inv.rack r " +
+            "JOIN FETCH inv.cell c " +
+            "JOIN FETCH inv.lot l " +
+            "WHERE w.id = :warehouseId")
+    List<Inventory> findAllByWarehouseId(Long warehouseId);
+
+    // 창고, 구역에 속한 재고 목록 조회
+    @Query("SELECT inv FROM Inventory inv " +
+            "JOIN FETCH inv.item i " +
+            "JOIN FETCH inv.warehouse w " +
+            "JOIN FETCH inv.area a " +
+            "JOIN FETCH inv.rack r " +
+            "JOIN FETCH inv.cell c " +
+            "JOIN FETCH inv.lot l " +
+            "WHERE w.id = :warehouseId AND a.id = :areaId")
+    List<Inventory> findAllByWarehouseIdAndAreaId(Long warehouseId, Long areaId);
+
+    // 창고, 구역, 랙에 속한 재고 목록 조회
+    @Query("SELECT inv FROM Inventory inv " +
+            "JOIN FETCH inv.item i " +
+            "JOIN FETCH inv.warehouse w " +
+            "JOIN FETCH inv.area a " +
+            "JOIN FETCH inv.rack r " +
+            "JOIN FETCH inv.cell c " +
+            "JOIN FETCH inv.lot l " +
+            "WHERE w.id = :warehouseId AND a.id = :areaId AND r.id = :rackId")
+    List<Inventory> findAllByWarehouseIdAndAreaIdAndRackId(Long warehouseId, Long areaId, Long rackId);
+
+    // 창고, 구역, 랙, 셀에 속한 재고 목록 조회
+    @Query("SELECT inv FROM Inventory inv " +
+            "JOIN FETCH inv.item i " +
+            "JOIN FETCH inv.warehouse w " +
+            "JOIN FETCH inv.area a " +
+            "JOIN FETCH inv.rack r " +
+            "JOIN FETCH inv.cell c " +
+            "JOIN FETCH inv.lot l " +
+            "WHERE w.id = :warehouseId AND a.id = :areaId AND r.id = :rackId AND c.id = :cellId")
+    List<Inventory> findAllByWarehouseIdAndAreaIdAndRackIdAndCellId(Long warehouseId, Long areaId, Long rackId, Long cellId);
 }

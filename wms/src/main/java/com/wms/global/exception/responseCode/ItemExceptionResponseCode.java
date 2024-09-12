@@ -11,7 +11,7 @@ public enum ItemExceptionResponseCode {
     ITEM_NAME_DUPLICATE(HttpStatus.CONFLICT, "Item-001", "상품명이 이미 존재합니다."),
 
     //404 NOTFOUND
-    ITEM_NOT_FOUND(HttpStatus.CONFLICT, "Item-002", "상품을 찾을 수 없습니다.");
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "Item-002", "상품을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -101,4 +101,64 @@ public class InventoryServiceImpl implements InventoryService {
                 .map(InventoryResponseDTO::fromEntity)  // fromEntity 메서드 활용
                 .collect(Collectors.toList());
     }
+
+    // 창고에 속한 재고 목록 조회
+    @Override
+    @Transactional(readOnly = true)
+    public List<InventoryResponseDTO> getInventoryByWarehouseId(Long warehouseId) {
+        List<Inventory> inventories = inventoryRepository.findAllByWarehouseId(warehouseId);
+
+        if (inventories.isEmpty()) {
+            throw new InventoryException(InventoryExceptionResponseCode.INVENTORY_NOT_FOUND, "해당 창고에 재고가 없습니다.");
+        }
+
+        return inventories.stream()
+                .map(InventoryResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 창고, 구역에 속한 재고 목록 조회
+    @Override
+    @Transactional(readOnly = true)
+    public List<InventoryResponseDTO> getInventoryByWarehouseIdAndAreaId(Long warehouseId, Long areaId) {
+        List<Inventory> inventories = inventoryRepository.findAllByWarehouseIdAndAreaId(warehouseId, areaId);
+
+        if (inventories.isEmpty()) {
+            throw new InventoryException(InventoryExceptionResponseCode.INVENTORY_NOT_FOUND, "해당 창고와 구역에 재고가 없습니다.");
+        }
+
+        return inventories.stream()
+                .map(InventoryResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 창고, 구역, 랙에 속한 재고 목록 조회
+    @Override
+    @Transactional(readOnly = true)
+    public List<InventoryResponseDTO> getInventoryByWarehouseIdAndAreaIdAndRackId(Long warehouseId, Long areaId, Long rackId) {
+        List<Inventory> inventories = inventoryRepository.findAllByWarehouseIdAndAreaIdAndRackId(warehouseId, areaId, rackId);
+
+        if (inventories.isEmpty()) {
+            throw new InventoryException(InventoryExceptionResponseCode.INVENTORY_NOT_FOUND, "해당 창고, 구역, 랙에 재고가 없습니다.");
+        }
+
+        return inventories.stream()
+                .map(InventoryResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    // 창고, 구역, 랙, 셀에 속한 재고 목록 조회
+    @Override
+    @Transactional(readOnly = true)
+    public List<InventoryResponseDTO> getInventoryByWarehouseIdAndAreaIdAndRackIdAndCellId(Long warehouseId, Long areaId, Long rackId, Long cellId) {
+        List<Inventory> inventories = inventoryRepository.findAllByWarehouseIdAndAreaIdAndRackIdAndCellId(warehouseId, areaId, rackId, cellId);
+
+        if (inventories.isEmpty()) {
+            throw new InventoryException(InventoryExceptionResponseCode.INVENTORY_NOT_FOUND, "해당 창고, 구역, 랙, 셀에 재고가 없습니다.");
+        }
+
+        return inventories.stream()
+                .map(InventoryResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

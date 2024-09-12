@@ -9,7 +9,7 @@ public enum CellExceptionResponseCode {
     CELL_NAME_DUPLICATE(HttpStatus.CONFLICT, "Cell-003", "이미 존재하는 샐 이름입니다."),
 
     //404 NOTFOUND
-    CELL_NOT_FOUND(HttpStatus.CONFLICT, "Cell-002", "셀을 찾을 수 없습니다.");
+    CELL_NOT_FOUND(HttpStatus.NOT_FOUND, "Cell-002", "셀을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -1,5 +1,6 @@
 package com.wms.domain.lot.entity;
 
+import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inventory.entity.Inventory;
 import com.wms.domain.item.entity.Item;
 import com.wms.global.BaseEntity;
@@ -28,13 +29,15 @@ public class Lot extends BaseEntity {
     @Column(nullable = false)
     private String lotNumber;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
     @OneToMany(mappedBy = "lot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Inventory> inventory = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<InputWarehouseDetail> inputWarehouseDetails = new ArrayList<>();
 
     @Builder
     public Lot(String lotNumber, Item item) {
