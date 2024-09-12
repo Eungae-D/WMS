@@ -21,10 +21,17 @@ public class InputWarehouseDetailController {
 
     private final InputWarehouseDetailService inputWarehouseDetailService;
 
-    // 입고서 상세 조회
+    // 입고 ID로 입고 상세 정보 조회
     @GetMapping("/{inputWarehouseId}")
     public ResponseEntity<ApiResponse<?>> getInputWarehouseDetails(@PathVariable Long inputWarehouseId) {
         List<InputWarehouseDetailsResponseDTO> inputWarehouseDetails = inputWarehouseDetailService.getInputWarehouseDetails(inputWarehouseId);
         return ResponseEntity.ok(ApiResponse.createSuccess(inputWarehouseDetails, "입고서 상세 조회 성공"));
+    }
+
+    // 발주서 ID로 입고 상세 정보 조회
+    @GetMapping("/byPurchaseSheet/{purchaseSheetId}")
+    public ResponseEntity<ApiResponse<?>> getInputWarehouseDetailsByPurchaseSheetId(@PathVariable Long purchaseSheetId) {
+        List<InputWarehouseDetailsResponseDTO> inputWarehouseDetails = inputWarehouseDetailService.getInputWarehouseDetailsByPurchaseSheetId(purchaseSheetId);
+        return ResponseEntity.ok(ApiResponse.createSuccess(inputWarehouseDetails, "입고 상세 정보 조회 성공"));
     }
 }

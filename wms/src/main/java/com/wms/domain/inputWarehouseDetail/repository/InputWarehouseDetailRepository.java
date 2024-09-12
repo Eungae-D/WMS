@@ -21,4 +21,17 @@ public interface InputWarehouseDetailRepository extends JpaRepository<InputWareh
             "JOIN FETCH iwd.lot l " +
             "WHERE iw.id = :inputWarehouseId")
     List<InputWarehouseDetail> findAllByInputWarehouseId(@Param("inputWarehouseId") Long inputWarehouseId);
+
+    @Query("SELECT iwd FROM InputWarehouseDetail iwd " +
+            "JOIN FETCH iwd.inputWarehouse iw " +
+            "JOIN FETCH iwd.purchaseDetail pd " +
+            "JOIN FETCH pd.purchaseSheet ps " +
+            "JOIN FETCH iwd.item i " +
+            "JOIN FETCH iwd.warehouse w " +
+            "JOIN FETCH iwd.area a " +
+            "JOIN FETCH iwd.rack r " +
+            "JOIN FETCH iwd.cell c " +
+            "JOIN FETCH iwd.lot l " +
+            "WHERE ps.id = :purchaseSheetId")
+    List<InputWarehouseDetail> findAllByPurchaseSheetId(@Param("purchaseSheetId") Long purchaseSheetId);
 }

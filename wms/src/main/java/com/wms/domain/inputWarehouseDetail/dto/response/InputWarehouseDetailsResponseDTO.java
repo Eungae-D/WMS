@@ -10,6 +10,7 @@ import lombok.Getter;
 @Builder
 public class InputWarehouseDetailsResponseDTO {
 
+    private Long inputWarehouseDetailId; //입고 상세 번호
     private Long purchaseSheetId;     // 발주서 번호
     private String lotCode;           // 로트 코드
     private String itemCode;          // 품목 코드
@@ -22,6 +23,7 @@ public class InputWarehouseDetailsResponseDTO {
 
     public static InputWarehouseDetailsResponseDTO fromEntity(InputWarehouseDetail detail) {
         return InputWarehouseDetailsResponseDTO.builder()
+                .inputWarehouseDetailId(detail.getId()) // 입고 상세 번호
                 .purchaseSheetId(detail.getInputWarehouse().getPurchaseSheet().getId()) // 발주서 번호
                 .lotCode(detail.getLot().getLotNumber())  // 로트 코드
                 .itemCode(detail.getItem().getCode())  // 품목 코드

@@ -84,4 +84,19 @@ public class InputWarehouseDetailServiceImpl implements InputWarehouseDetailServ
                 .map(InputWarehouseDetailsResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<InputWarehouseDetailsResponseDTO> getInputWarehouseDetailsByPurchaseSheetId(Long purchaseSheetId) {
+        // 발주서 ID에 해당하는 입고 상세 정보 조회
+        List<InputWarehouseDetail> inputWarehouseDetails = inputWarehouseDetailRepository.findAllByPurchaseSheetId(purchaseSheetId);
+
+        if (inputWarehouseDetails.isEmpty()) {
+            throw new InputWarehouseDetailException(InputWarehouseDetailExceptionResponseCode.INPUT_WAREHOUSE_DETAIL_NOT_FOUND, "발주서에 대한 입고 상세 정보를 찾을 수 없습니다.");
+        }
+
+        return inputWarehouseDetails.stream()
+                .map(InputWarehouseDetailsResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

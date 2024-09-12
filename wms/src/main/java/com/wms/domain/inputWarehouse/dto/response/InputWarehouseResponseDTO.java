@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class InputWarehouseResponseDTO {
 
     private Long inputWarehouseId;     // 입고서 ID
+    private Long purchaseSheetId;      // 발주서 ID
     private String userName;           // 담당자 이름
     private String clientName;         // 거래처 이름
     private String status;             // 진행 상태
@@ -30,6 +31,7 @@ public class InputWarehouseResponseDTO {
 
         return InputWarehouseResponseDTO.builder()
                 .inputWarehouseId(inputWarehouse.getId())
+                .purchaseSheetId(inputWarehouse.getPurchaseSheet().getId())
                 .userName(inputWarehouse.getUser().getName())
                 .clientName(inputWarehouse.getPurchaseSheet().getClient().getName())
                 .status(inputWarehouse.getStatus().name())
