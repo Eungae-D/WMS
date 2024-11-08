@@ -7,6 +7,7 @@ import com.wms.domain.cell.repository.CellRepository;
 import com.wms.domain.inputWarehouse.entity.InputWarehouse;
 import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailRequestDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
+import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO2;
 import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inputWarehouseDetail.repository.InputWarehouseDetailRepository;
 import com.wms.domain.inputWarehouseDetail.service.InputWarehouseDetailService;
@@ -87,7 +88,7 @@ public class InputWarehouseDetailServiceImpl implements InputWarehouseDetailServ
 
     @Override
     @Transactional(readOnly = true)
-    public List<InputWarehouseDetailsResponseDTO> getInputWarehouseDetailsByPurchaseSheetId(Long purchaseSheetId) {
+    public List<InputWarehouseDetailsResponseDTO2> getInputWarehouseDetailsByPurchaseSheetId(Long purchaseSheetId) {
         // 발주서 ID에 해당하는 입고 상세 정보 조회
         List<InputWarehouseDetail> inputWarehouseDetails = inputWarehouseDetailRepository.findAllByPurchaseSheetId(purchaseSheetId);
 
@@ -96,7 +97,7 @@ public class InputWarehouseDetailServiceImpl implements InputWarehouseDetailServ
         }
 
         return inputWarehouseDetails.stream()
-                .map(InputWarehouseDetailsResponseDTO::fromEntity)
+                .map(InputWarehouseDetailsResponseDTO2::fromEntity)
                 .collect(Collectors.toList());
     }
 }

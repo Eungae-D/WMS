@@ -1,6 +1,7 @@
 package com.wms.domain.inputWarehouseDetail.controller;
 
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
+import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO2;
 import com.wms.domain.inputWarehouseDetail.service.InputWarehouseDetailService;
 import com.wms.global.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class InputWarehouseDetailController {
     // 발주서 ID로 입고 상세 정보 조회
     @GetMapping("/byPurchaseSheet/{purchaseSheetId}")
     public ResponseEntity<ApiResponse<?>> getInputWarehouseDetailsByPurchaseSheetId(@PathVariable Long purchaseSheetId) {
-        List<InputWarehouseDetailsResponseDTO> inputWarehouseDetails = inputWarehouseDetailService.getInputWarehouseDetailsByPurchaseSheetId(purchaseSheetId);
+        List<InputWarehouseDetailsResponseDTO2> inputWarehouseDetails = inputWarehouseDetailService.getInputWarehouseDetailsByPurchaseSheetId(purchaseSheetId);
         return ResponseEntity.ok(ApiResponse.createSuccess(inputWarehouseDetails, "입고 상세 정보 조회 성공"));
     }
 }
