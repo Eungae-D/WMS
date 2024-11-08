@@ -32,6 +32,6 @@ public interface InputWarehouseDetailRepository extends JpaRepository<InputWareh
             "JOIN FETCH iwd.rack r " +
             "JOIN FETCH iwd.cell c " +
             "JOIN FETCH iwd.lot l " +
-            "WHERE ps.id = :purchaseSheetId")
+            "WHERE ps.id = :purchaseSheetId AND pd.status = 'EXPECTED'")
     List<InputWarehouseDetail> findAllByPurchaseSheetId(@Param("purchaseSheetId") Long purchaseSheetId);
 }
