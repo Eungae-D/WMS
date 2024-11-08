@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
 public class InputWarehouseServiceImpl implements InputWarehouseService {
 
     private final InputWarehouseRepository inputWarehouseRepository;
-    private final PurchaseSheetRepository purchaseSheetRepository;
+    private final PurchaseSheetRepository
+            purchaseSheetRepository;
     private final InputWarehouseDetailService inputWarehouseDetailService;
     private final UserFindService userFindService;
 
