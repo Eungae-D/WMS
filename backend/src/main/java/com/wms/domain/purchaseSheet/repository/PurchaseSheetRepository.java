@@ -15,4 +15,5 @@ public interface PurchaseSheetRepository extends JpaRepository<PurchaseSheet, Lo
             "JOIN FETCH ps.purchaseDetails pd " +
             "JOIN FETCH pd.item i")
     List<PurchaseSheet> findAllPurchaseSheetsWithDetails();
+    //
 }
