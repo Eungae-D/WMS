@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# Docker 관련 파일
+.dockerignore
+
+# 압축파일
+frontend.tar.gz
