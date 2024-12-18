@@ -75,4 +75,18 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
         // 발주서 정보와 품목 리스트를 합쳐서 DTO로 변환
         return PurchaseSheetDetailsResponseDTO.fromEntity(purchaseSheet, purchaseDetailResponseDTOs);
     }
+
+    @Override
+    @Transactional
+    public void completePurchaseDetail(Long purchaseDetailId) {
+        // 발주 상세 조회
+        PurchaseDetail purchaseDetail = purchaseDetailRepository.findById(purchaseDetailId)
+                .orElseThrow(() -> new PurchaseSheetException(PurchaseSheetExceptionResponseCode.PURCHASE_SHEET_NOT_FOUND, "발주 상세를 찾을 수 없습니다."));
+
+        // 상태 변경
+        purchaseDetail.complete();
+
+        // 저장
+        purchaseDetailRepository.save(purchaseDetail);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
@@ -63,4 +64,20 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
             "JOIN FETCH inv.lot l " +
             "WHERE w.id = :warehouseId AND a.id = :areaId AND r.id = :rackId AND c.id = :cellId")
     List<Inventory> findAllByWarehouseIdAndAreaIdAndRackIdAndCellId(Long warehouseId, Long areaId, Long rackId, Long cellId);
+
+    @Query("SELECT inv FROM Inventory inv " +
+            "JOIN FETCH inv.item i " +
+            "JOIN FETCH inv.warehouse w " +
+            "JOIN FETCH inv.area a " +
+            "JOIN FETCH inv.rack r " +
+            "JOIN FETCH inv.cell c " +
+            "JOIN FETCH inv.lot l " +
+            "WHERE i.id = :itemId " +
+            "AND w.id = :warehouseId " +
+            "AND a.id = :areaId " +
+            "AND r.id = :rackId " +
+            "AND c.id = :cellId " +
+            "AND l.id = :lotId")
+    Optional<Inventory> findByItemAndWarehouseAndAreaAndRackAndCellAndLot(Long itemId, Long warehouseId, Long areaId, Long rackId, Long cellId, Long lotId);
+
 }

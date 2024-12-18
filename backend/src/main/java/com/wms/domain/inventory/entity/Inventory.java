@@ -71,4 +71,12 @@ public class Inventory extends BaseEntity {
         this.cell = cell;
         this.lot = lot;
     }
+
+    public void addQuantity(Long amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("추가할 수량은 0보다 커야 합니다.");
+        }
+        this.quantity += amount;
+    }
+
 }
