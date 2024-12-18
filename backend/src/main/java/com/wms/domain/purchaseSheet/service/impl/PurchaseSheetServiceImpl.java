@@ -7,6 +7,8 @@ import com.wms.domain.item.repository.ItemRepository;
 import com.wms.domain.orderSheet.entity.OrderSheet;
 import com.wms.domain.orderSheet.repository.OrderSheetRepository;
 import com.wms.domain.purchaseDetail.dto.request.PurchaseDetailRequestDTO;
+import com.wms.domain.purchaseDetail.entity.PurchaseDetail;
+import com.wms.domain.purchaseDetail.entity.Status;
 import com.wms.domain.purchaseDetail.service.PurchaseDetailService;
 import com.wms.domain.purchaseSheet.dto.request.PurchaseSheetRequestDTO;
 import com.wms.domain.purchaseSheet.dto.response.PurchaseSheetResponseDTO;
@@ -107,4 +109,27 @@ public class PurchaseSheetServiceImpl implements PurchaseSheetService {
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void updatePurchaseSheetStatus(PurchaseSheet purchaseSheet) {
+        boolean allCompleted = true; // 모든 발주 상세가 COMPLETED인지 확인
+
+        for (PurchaseDetail detail : purchaseSheet.getPurchaseDetails()) {
+            if (detail.getStatus() != Status.COMPLETED) {
+                allCompleted = false;
+                break;
+            }
+        }
+
+        if (allCompleted) {
+            purchaseSheet.completed();
+        } else {
+            purchaseSheet.ordering();
+        }
+
+        // 상태 변경 후 저장
+        purchaseSheetRepository.save(purchaseSheet);
+    }
+
 }

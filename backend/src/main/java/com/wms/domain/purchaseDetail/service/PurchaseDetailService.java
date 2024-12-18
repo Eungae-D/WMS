@@ -13,4 +13,7 @@ public interface PurchaseDetailService {
 
     // 발주서 상세 정보 조회
     PurchaseSheetDetailsResponseDTO getPurchaseSheetDetails(Long purchaseSheetId);
+
+    // 발주 상세 상태 업데이트
+    void completePurchaseDetail(Long purchaseDetailId);
 }

@@ -57,4 +57,8 @@ public class PurchaseDetail extends BaseEntity {
         this.item = item;
         this.warehouse = warehouse;
     }
+
+    public void complete() {
+        this.status = Status.COMPLETED;
+    }
 }

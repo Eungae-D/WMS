@@ -67,4 +67,14 @@ public class PurchaseSheet extends BaseEntity {
         this.client = client;
         this.purchaseType = purchaseType;
     }
+
+    // 발주서 상태를 COMPLETED로 설정
+    public void completed() {
+        this.status = Status.COMPLETED;
+    }
+
+    // 발주서 상태를 ORDERING으로 설정
+    public void ordering() {
+        this.status = Status.ORDERING;
+    }
 }

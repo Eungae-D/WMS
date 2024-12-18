@@ -1,5 +1,6 @@
 package com.wms.domain.inventory.service;
 
+import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inventory.dto.request.InventoryRequestDTO;
 import com.wms.domain.inventory.dto.response.InventoryResponseDTO;
 
@@ -24,4 +25,7 @@ public interface InventoryService {
 
     // 창고, 구역, 랙, 셀 ID로 필터링된 재고 목록 조회
     List<InventoryResponseDTO> getInventoryByWarehouseIdAndAreaIdAndRackIdAndCellId(Long warehouseId, Long areaId, Long rackId, Long cellId);
+
+    // 인벤토리 업데이트
+    void updateInventory(InputWarehouseDetail detail);
 }

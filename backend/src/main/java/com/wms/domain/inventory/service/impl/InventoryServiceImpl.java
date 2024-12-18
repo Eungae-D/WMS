@@ -4,6 +4,7 @@ import com.wms.domain.area.entity.Area;
 import com.wms.domain.area.repository.AreaRepository;
 import com.wms.domain.cell.entity.Cell;
 import com.wms.domain.cell.repository.CellRepository;
+import com.wms.domain.inputWarehouseDetail.entity.InputWarehouseDetail;
 import com.wms.domain.inventory.dto.request.InventoryRequestDTO;
 import com.wms.domain.inventory.dto.response.InventoryResponseDTO;
 import com.wms.domain.inventory.entity.Inventory;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -160,5 +162,40 @@ public class InventoryServiceImpl implements InventoryService {
         return inventories.stream()
                 .map(InventoryResponseDTO::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void updateInventory(InputWarehouseDetail detail) {
+        // 1. 기존 재고 확인
+        Optional<Inventory> optionalInventory = inventoryRepository.findByItemAndWarehouseAndAreaAndRackAndCellAndLot(
+                detail.getItem().getId(),
+                detail.getWarehouse().getId(),
+                detail.getArea().getId(),
+                detail.getRack().getId(),
+                detail.getCell().getId(),
+                detail.getLot().getId()
+        );
+
+        // 2. 기존 재고가 있으면 업데이트
+        if (optionalInventory.isPresent()) {
+            Inventory inventory = optionalInventory.get();
+            inventory.addQuantity(detail.getAmount());
+            inventoryRepository.save(inventory);
+        } else {
+            // 3. 기존 재고가 없으면 새로 생성
+            Inventory newInventory = Inventory.builder()
+                    .quantity(detail.getAmount().intValue()) // 새로운 수량 설정
+                    .orderQuantity(0) // 초기 발주량 설정
+                    .user(detail.getInputWarehouse().getUser()) // 입고한 사용자 정보 설정
+                    .item(detail.getItem()) // 품목 정보 설정
+                    .warehouse(detail.getWarehouse()) // 창고 정보 설정
+                    .area(detail.getArea()) // 구역 정보 설정
+                    .rack(detail.getRack()) // 랙 정보 설정
+                    .cell(detail.getCell()) // 셀 정보 설정
+                    .lot(detail.getLot()) // 로트 정보 설정
+                    .build();
+            inventoryRepository.save(newInventory);
+        }
     }
 }
