@@ -12,6 +12,4 @@ public interface InputWarehouseService {
     // 입고 목록 조회
     List<InputWarehouseResponseDTO> getInputWarehouseList();
 
-    // 입고 완료
-    void completeInputWarehouse(List<Long> inputWarehouseDetailIds);
 }

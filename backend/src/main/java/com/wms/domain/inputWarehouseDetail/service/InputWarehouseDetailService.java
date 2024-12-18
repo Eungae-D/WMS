@@ -17,4 +17,7 @@ public interface InputWarehouseDetailService {
 
     // 입고서 상세 정보 조회 (발주서 번호)
     List<InputWarehouseDetailsResponseDTO2> getInputWarehouseDetailsByPurchaseSheetId(Long purchaseSheetId);
+
+    // 입고 완료
+    void completeInputWarehouse(List<Long> inputWarehouseDetailIds);
 }

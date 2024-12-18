@@ -119,6 +119,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/cell/delete/**").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/cell/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 로트
+                .requestMatchers("/api/v1/lot/register").hasAnyAuthority("MANAGER","ADMIN")
                 .requestMatchers("/api/v1/lot/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/lot/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
                 // 재고
@@ -139,6 +140,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/inputWarehouse/register").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/inputWarehouse/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
                 .requestMatchers("/api/v1/inputWarehouse/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
+                // 판매
+                .requestMatchers("/api/v1/sell/register").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/sell/delete/**").hasAnyAuthority("USER","MANAGER","ADMIN")
+                .requestMatchers("/api/v1/sell/**").hasAnyAuthority("GUEST","USER","MANAGER","ADMIN")
 
 
                 .anyRequest().authenticated();
