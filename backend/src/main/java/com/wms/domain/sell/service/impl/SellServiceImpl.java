@@ -19,13 +19,13 @@ public class SellServiceImpl implements SellService {
 
     private final SellRepository sellRepository;
 
-//    // 판매 목록 가져오기
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<SellResponseDTO> getAllSells() {
-//        List<Sell> sells = sellRepository.findAllSellsWithDetails();
-//        return sells.stream()
-//                .map(SellResponseDTO::fromEntity)
-//                .collect(Collectors.toList());
-//    }
+    // 판매 목록 가져오기
+    @Override
+    @Transactional(readOnly = true)
+    public List<SellResponseDTO> getAllSells() {
+        List<Sell> sells = sellRepository.findAllSellsWithDetails();
+        return sells.stream()
+                .map(SellResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

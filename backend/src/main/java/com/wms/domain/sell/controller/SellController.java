@@ -1,15 +1,16 @@
 package com.wms.domain.sell.controller;
 
+        import com.wms.domain.sell.dto.response.SellResponseDTO;
         import com.wms.domain.sell.service.SellService;
         import com.wms.global.util.response.ApiResponse;
         import jakarta.validation.Valid;
         import lombok.RequiredArgsConstructor;
         import lombok.extern.slf4j.Slf4j;
+        import org.springframework.http.HttpStatus;
         import org.springframework.http.ResponseEntity;
-        import org.springframework.web.bind.annotation.PostMapping;
-        import org.springframework.web.bind.annotation.RequestBody;
-        import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.RestController;
+        import org.springframework.web.bind.annotation.*;
+
+        import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,12 +36,12 @@ public class SellController {
 //                return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccessNoContent("판매 삭제 성공."));
 //        }
 //
-//        // 판매 목록 가져오기
-//        @GetMapping("/list")
-//        public ResponseEntity<ApiResponse<?>> getAllSells() {
-//                List<SellResponseDTO> sellList = sellService.getAllSells();
-//                return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(sellList, "판매 목록 가져오기 성공."));
-//        }
+        // 판매 목록 가져오기
+        @GetMapping("/list")
+        public ResponseEntity<ApiResponse<?>> getAllSells() {
+                List<SellResponseDTO> sellList = sellService.getAllSells();
+                return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(sellList, "판매 목록 가져오기 성공."));
+        }
 //
 //        // 판매 목록 가져오기(상태로 검색)
 //        @GetMapping("/status/{status}")
