@@ -1,6 +1,7 @@
 package com.wms.domain.inputWarehouseDetail.service;
 
 import com.wms.domain.inputWarehouse.entity.InputWarehouse;
+import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailCompleteDTO;
 import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailRequestDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO2;
@@ -19,5 +20,5 @@ public interface InputWarehouseDetailService {
     List<InputWarehouseDetailsResponseDTO2> getInputWarehouseDetailsByPurchaseSheetId(Long purchaseSheetId);
 
     // 입고 완료
-    void completeInputWarehouse(List<Long> inputWarehouseDetailIds);
+    void completeInputWarehouse(List<InputWarehouseDetailCompleteDTO> inputWarehouseDetailIds);
 }

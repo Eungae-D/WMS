@@ -5,6 +5,7 @@ import com.wms.domain.area.repository.AreaRepository;
 import com.wms.domain.cell.entity.Cell;
 import com.wms.domain.cell.repository.CellRepository;
 import com.wms.domain.inputWarehouse.entity.InputWarehouse;
+import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailCompleteDTO;
 import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailRequestDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO2;
@@ -110,9 +111,14 @@ public class InputWarehouseDetailServiceImpl implements InputWarehouseDetailServ
 
     @Override
     @Transactional
-    public void completeInputWarehouse(List<Long> inputWarehouseDetailIds) {
-        // 1. 해당 입고 상세 정보 조회
-        List<InputWarehouseDetail> inputWarehouseDetails = inputWarehouseDetailRepository.findAllById(inputWarehouseDetailIds);
+    public void completeInputWarehouse(List<InputWarehouseDetailCompleteDTO> inputWarehouseDetailIds) {
+        // 1. DTO에서 ID 리스트 추출
+        List<Long> ids = inputWarehouseDetailIds.stream()
+                .map(InputWarehouseDetailCompleteDTO::getInputWarehouseDetailId)
+                .collect(Collectors.toList());
+
+        // 2. 해당 입고 상세 정보 조회
+        List<InputWarehouseDetail> inputWarehouseDetails = inputWarehouseDetailRepository.findAllById(ids);
 
         if (inputWarehouseDetails.isEmpty()) {
             throw new InputWarehouseDetailException(InputWarehouseDetailExceptionResponseCode.INPUT_WAREHOUSE_DETAIL_NOT_FOUND, "입고 상세 정보를 찾을 수 없습니다.");

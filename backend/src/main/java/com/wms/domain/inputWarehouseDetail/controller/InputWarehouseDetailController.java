@@ -1,5 +1,6 @@
 package com.wms.domain.inputWarehouseDetail.controller;
 
+import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailCompleteDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO2;
 import com.wms.domain.inputWarehouseDetail.service.InputWarehouseDetailService;
@@ -36,7 +37,7 @@ public class InputWarehouseDetailController {
 
     // 입고 완료
     @PostMapping("/complete")
-    public ResponseEntity<ApiResponse<?>> completeInputWarehouse(@RequestBody List<Long> inputWarehouseDetailIds) {
+    public ResponseEntity<ApiResponse<?>> completeInputWarehouse(@RequestBody List<InputWarehouseDetailCompleteDTO> inputWarehouseDetailIds) {
         inputWarehouseDetailService.completeInputWarehouse(inputWarehouseDetailIds);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccessNoContent("입고 완료 처리 성공"));
     }
