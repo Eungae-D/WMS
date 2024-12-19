@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class InputWarehouseDetailCompleteDTO {
     @NotNull(message = " ID는 필수입니다.")
-    private Long InputWarehouseDetailId;
+    private Long inputWarehouseDetailId;
 }
