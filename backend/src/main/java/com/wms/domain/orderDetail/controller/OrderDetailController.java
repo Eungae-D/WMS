@@ -2,6 +2,7 @@ package com.wms.domain.orderDetail.controller;
 
 import com.wms.domain.orderDetail.dto.response.OrderDetailResponseDTO;
 import com.wms.domain.orderDetail.dto.response.OrderSheetDetailsResponseDTO;
+import com.wms.domain.orderDetail.dto.response.sell.OrderSheetDetailsSellResponseDTO;
 import com.wms.domain.orderDetail.service.OrderDetailService;
 import com.wms.global.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,12 @@ public class OrderDetailController {
     public ResponseEntity<ApiResponse<?>> getOrderSheetDetails(@PathVariable Long orderSheetId) {
         OrderSheetDetailsResponseDTO orderSheetDetails = orderDetailService.getOrderSheetDetails(orderSheetId);
         return ResponseEntity.ok(ApiResponse.createSuccess(orderSheetDetails, "수주서 상세 조회 성공"));
+    }
+
+    // 수주서 상세 조회(판매 목록)
+    @GetMapping("/sell/{orderSheetId}")
+    public ResponseEntity<ApiResponse<?>> getOrderSheetDetailsWithSell(@PathVariable Long orderSheetId) {
+        OrderSheetDetailsSellResponseDTO responseDTO = orderDetailService.getOrderSheetDetailsWithSell(orderSheetId);
+        return ResponseEntity.ok(ApiResponse.createSuccess(responseDTO, "수주서 상세 조회 (판매 목록) 성공"));
     }
 }

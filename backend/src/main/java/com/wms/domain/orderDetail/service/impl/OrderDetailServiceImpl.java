@@ -5,6 +5,9 @@ import com.wms.domain.item.repository.ItemRepository;
 import com.wms.domain.orderDetail.dto.request.OrderDetailRequestDTO;
 import com.wms.domain.orderDetail.dto.response.OrderDetailResponseDTO;
 import com.wms.domain.orderDetail.dto.response.OrderSheetDetailsResponseDTO;
+import com.wms.domain.orderDetail.dto.response.sell.OrderDetailSellDTO;
+import com.wms.domain.orderDetail.dto.response.sell.OrderDetailSellResponseDTO;
+import com.wms.domain.orderDetail.dto.response.sell.OrderSheetDetailsSellResponseDTO;
 import com.wms.domain.orderDetail.entity.OrderDetail;
 import com.wms.domain.orderDetail.repository.OrderDetailRepository;
 import com.wms.domain.orderDetail.service.OrderDetailService;
@@ -67,4 +70,36 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         // 수주서 정보와 품목 리스트를 합쳐서 DTO로 변환
         return OrderSheetDetailsResponseDTO.fromEntity(orderSheet, orderDetailResponseDTOs);
         }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrderSheetDetailsSellResponseDTO getOrderSheetDetailsWithSell(Long orderSheetId) {
+        // 수주서 정보 조회
+        OrderSheet orderSheet = orderSheetRepository.findById(orderSheetId)
+                .orElseThrow(() -> new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEET_EMPTY, "수주서를 찾을 수 없습니다."));
+
+        // OrderDetail 조회 (Lot 포함)
+        List<OrderDetail> orderDetails = orderDetailRepository.findOrderDetailsWithLotsByOrderSheetId(orderSheetId);
+
+        if (orderDetails.isEmpty()) {
+            throw new OrderSheetException(OrderSheetExceptionResponseCode.ORDER_SHEET_EMPTY, "수주서에 품목이 존재하지 않습니다.");
+        }
+
+        // OrderDetail -> DTO 변환
+        List<OrderDetailSellResponseDTO> sellResponseDTOs = orderDetails.stream().map(orderDetail -> {
+            // Item의 Inventory 기반으로 SellDetails 생성
+            List<OrderDetailSellDTO> sellDetails = orderDetail.getItem().getInventory().stream()
+                    .map(OrderDetailSellDTO::fromEntity) // fromEntity 메서드 사용
+                    .collect(Collectors.toList());
+
+            // OrderDetailSellResponseDTO 생성
+            return OrderDetailSellResponseDTO.fromEntity(orderDetail, sellDetails);
+        }).collect(Collectors.toList());
+
+
+        // 수주서 정보와 품목 리스트를 합쳐서 DTO로 변환
+        return OrderSheetDetailsSellResponseDTO.fromEntity(orderSheet, sellResponseDTOs);
+    }
+
+
 }
