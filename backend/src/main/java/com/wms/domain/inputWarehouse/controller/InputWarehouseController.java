@@ -34,10 +34,4 @@ public class InputWarehouseController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccess(inputWarehouseList, "입고 목록 조회 성공"));
     }
 
-    // 입고 완료
-    @PostMapping("/complete")
-    public ResponseEntity<ApiResponse<?>> completeInputWarehouse(@RequestBody List<Long> inputWarehouseDetailIds) {
-        inputWarehouseService.completeInputWarehouse(inputWarehouseDetailIds);
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccessNoContent("입고 완료 처리 성공"));
-    }
 }

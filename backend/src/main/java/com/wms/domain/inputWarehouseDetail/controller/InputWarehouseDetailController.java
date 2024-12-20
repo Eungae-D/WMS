@@ -1,16 +1,15 @@
 package com.wms.domain.inputWarehouseDetail.controller;
 
+import com.wms.domain.inputWarehouseDetail.dto.request.InputWarehouseDetailCompleteDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO;
 import com.wms.domain.inputWarehouseDetail.dto.response.InputWarehouseDetailsResponseDTO2;
 import com.wms.domain.inputWarehouseDetail.service.InputWarehouseDetailService;
 import com.wms.global.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +33,12 @@ public class InputWarehouseDetailController {
     public ResponseEntity<ApiResponse<?>> getInputWarehouseDetailsByPurchaseSheetId(@PathVariable Long purchaseSheetId) {
         List<InputWarehouseDetailsResponseDTO2> inputWarehouseDetails = inputWarehouseDetailService.getInputWarehouseDetailsByPurchaseSheetId(purchaseSheetId);
         return ResponseEntity.ok(ApiResponse.createSuccess(inputWarehouseDetails, "입고 상세 정보 조회 성공"));
+    }
+
+    // 입고 완료
+    @PostMapping("/complete")
+    public ResponseEntity<ApiResponse<?>> completeInputWarehouse(@RequestBody List<InputWarehouseDetailCompleteDTO> inputWarehouseDetailIds) {
+        inputWarehouseDetailService.completeInputWarehouse(inputWarehouseDetailIds);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.createSuccessNoContent("입고 완료 처리 성공"));
     }
 }
